@@ -34,7 +34,12 @@ sage: constants_aff = [
  [21, 239, 781],
  [171, 208, 597]
  ]
-sage: arion = Arion(field=field, branches=branches, rounds=rounds, constants_g=constants_g, constants_h=constants_h, constants_aff=constants_aff)
+sage: arion = Arion(field=field,
+                    branches=branches,
+                    rounds=rounds,
+                    constants_g=constants_g,
+                    constants_h=constants_h,
+                    constants_aff=constants_aff)
 Arion parameters
 Prime field: 1009
 Branches: 3
