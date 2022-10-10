@@ -56,8 +56,8 @@ class Arion:
                         c_2 = self.field.random_element()
                     self.constants_g.append([c_1, c_2])
         else:
-            if len(flatten(self.constants_g)) != self.rounds * (self.branches - 1):
-                raise Exception("Number of round constants for the polynomials g_i does not match branches minus one times the number of rounds.")
+            if len(flatten(self.constants_g)) != self.rounds * (self.branches - 1) * 2:
+                raise Exception("Number of round constants for the polynomials g_i does not match branches minus one times the number of rounds times two.")
             for pair in self.constants_g:
                 if legendre_symbol(pair[0]**2 - 4 * pair[1], self.field.characteristic()) != -1:
                     raise Exception("The constant pair (" + str(pair[0]) + ", " + str(pair[1]) + ") for g_i has zeros over " + str(self.field) + ".")
@@ -67,6 +67,9 @@ class Arion:
             self.constants_h = []
             for i in range(0, self.rounds * (self.branches - 1)):
                 self.constants_h.append(self.field.random_element())
+        else:
+            if len(self.constants_h) != self.rounds * (self.branches - 1):
+                raise Exception("Number of round constants for the polynomials h_i does not match branches minus one times the number of rounds.")
         
         self.constants_aff = constants_aff
         if self.constants_aff is None:
