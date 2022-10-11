@@ -104,7 +104,7 @@ class ArionHash:
             if len(initial_value) != self.capacity:
                 raise Exception("Length of initial value does not match sponge capacity.")
         
-        print("Arion parameters")
+        print("ArionHash parameters")
         print("Prime field: " + str(self.field.characteristic()))
         print("Branches: " + str(self.branches))
         print("Rounds: " + str(self.rounds))
