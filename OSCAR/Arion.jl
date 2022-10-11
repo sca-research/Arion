@@ -151,7 +151,6 @@ function Arion_constructor(;field=GF(1009),
     end
 
     println("Arion parameters")
-    println("Arion parameters")
     println("Prime field: ", q)
     println("Branches: ", branches)
     println("Rounds: ", rounds)
@@ -181,7 +180,7 @@ end
 
 function GTDS(v_in, branches, d, e, constants_g, constants_h)
     v_out = zero_matrix(base_ring(v_in), branches, 1)
-    v_out[branches, 1] = v_in[branches, 1]
+    v_out[branches, 1] = v_in[branches, 1]^e
     sigma = v_in[branches, 1] + v_out[branches, 1]
     for i in branches - 1:-1:1
         v_out[i, 1] = v_in[i, 1]^d
