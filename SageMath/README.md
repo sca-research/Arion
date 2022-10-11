@@ -119,3 +119,38 @@ sage: hash_val = arion_hash.hash(plain)
 sage: hash_val
 748
 ````
+**Usage of Arion density experiment**
+````
+sage: load("Arion_density_experiment.sage")
+sage: field = GF(19)
+sage: branches = 3
+sage: rounds = 3
+sage: constants_g = [[5, 3], [14, 9], [6, 10], [18, 16], [1, 6], [14, 15]]
+sage: constants_h = [13, 6, 4, 14, 10, 15]
+sage: constants_aff = [[11, 2, 1], [1, 0, 7], [9, 15, 6]]
+sage: arion_permutation = ArionDensity(field=field,
+                                       branches=branches,
+                                       rounds=rounds,
+                                       constants_g=constants_g,
+                                       constants_h=constants_h,
+                                       constants_aff=constants_aff)
+Arion parameters
+Prime field: 19
+Branches: 3
+Rounds: 3
+Exponent d_1: 5
+Exponent d_2: 5
+Constants for the g_i's: [[5, 3], [14, 9], [6, 10], [18, 16], [1, 6], [14, 15]]
+Constants for the h_i's: [13, 6, 4, 14, 10, 15]
+Affine constants: [[11, 2, 1], [1, 0, 7], [9, 15, 6]]
+
+sage: polys = arion_permutation.density_of_Arion_permutation()
+Computing density of Arion Permutation.
+Maximal possible density: 6859
+Round: 1
+Density of polynomials: [4353, 4362, 4359]
+Round: 2
+Density of polynomials: [6514, 6508, 6529]
+Round: 3
+Density of polynomials: [6512, 6465, 6518]
+````
