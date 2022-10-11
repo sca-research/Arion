@@ -203,7 +203,6 @@ Plain text: [1, 1, 1]
 Cipher text: [7, 3, 6]
 Term order: degrevlex
 
-
 sage: gb = ideal(polys).groebner_basis(algorithm="singular:slimgb")
 sage: gb
 [y_3^2 - 5*y_3 - 5, z_1 - 2, x_1__1 + 5*y_3 - 5, x_2__1 - 3*y_3 - 4, x_3__1 - 5*y_3 - 5, z_2 - 5*y_3 + 1, y_1 - 4*y_3 - 5, y_2 + 3*y_3 + 3]
