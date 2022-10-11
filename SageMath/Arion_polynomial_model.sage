@@ -1,8 +1,8 @@
 """
     Polynomial model of Arion.
 """
-load("..\\GitHub\\sca-research\\Arion\\SageMath\\Arion.sage")
-#load("Arion.sage")
+
+load("Arion.sage")
 
 def generate_variables(branches, rounds):
     variables = []
