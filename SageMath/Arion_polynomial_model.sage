@@ -97,7 +97,7 @@ def generate_Arion_polynomials(field=GF(0x73eda753299d7d483339d80809a1d80553bda4
     print("Plain text: " + str(plain))
     if not key is None:
         print("Key: " + str(key[0]))
-    print("Cipher text: " + str(plain))
+    print("Cipher text: " + str(cipher))
     print("Term order: " + termorder)
     
     variables = generate_variables(branches, rounds)

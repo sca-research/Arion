@@ -6,9 +6,9 @@ Contains a reference implementation of Arion in [SageMath](https://www.sagemath.
 
 ### Examples
 **Usage of Arion Reference Implementation**
-````
+````Python
 sage: load("Arion.sage")
-sage: field = field = GF(1009)
+sage: field = GF(1009)
 sage: branches = 3
 sage: rounds = 6
 sage: constants_g = [
@@ -66,9 +66,9 @@ sage: arion.decrypt(cipher, key) == plain
 True
 ````
 **Usage of ArionHash Reference Implementation**
-````
+````Python
 sage: load("ArionHash.sage")
-sage: field = field = GF(1009)
+sage: field = GF(1009)
 sage: branches = 3
 sage: rounds = 6
 sage: capacity = 1
@@ -120,7 +120,7 @@ sage: hash_val
 748
 ````
 **Usage of Arion density experiment**
-````
+````Python
 sage: load("Arion_density_experiment.sage")
 sage: field = GF(19)
 sage: branches = 3
@@ -153,4 +153,80 @@ Round: 2
 Density of polynomials: [6514, 6508, 6529]
 Round: 3
 Density of polynomials: [6512, 6465, 6518]
+````
+**Usage of Arion polynomial model**
+````Python
+sage: load("Arion.sage")
+sage: load("Arion_polynomial_model.sage")
+sage: field = GF(11)
+sage: branches = 3
+sage: rounds = 2
+sage: d_1 = 3
+sage: d_2 = 7
+sage: constants_g = [[3, 10], [6, 10], [6, 7], [5, 7]]
+sage: constants_h = [0, 5, 5, 0]
+sage: constants_aff = [[3, 9, 8], [9, 2, 7]]
+sage: arion = Arion(field=field,
+                    branches=branches,
+                    rounds=rounds,
+                    d_1=d_1,
+                    d_2=d_2,
+                    constants_g=constants_g,
+                    constants_h=constants_h,
+                    constants_aff=constants_aff)
+sage: plain = branches * [1]
+sage: key = (rounds + 1) * [branches * [2]]
+sage: cipher = arion.encrypt(plain, key)
+sage: cipher
+[7, 3, 6]
+sage: polys = generate_Arion_polynomials(field=field,
+                                         branches=branches,
+                                         rounds=rounds,
+                                         d_1=d_1,
+                                         d_2=d_2,
+                                         constants_g=constants_g,
+                                         constants_h=constants_h,
+                                         constants_aff=constants_aff,
+                                         plain=plain,
+                                         cipher=cipher,
+                                         field_equations=True)
+Arion parameters
+Prime field: 11
+Branches: 3
+Rounds: 2
+Exponent d_1: 3
+Exponent d_2: 7
+Constants for the g_i's: [[3, 10], [6, 10], [6, 7], [5, 7]]
+Constants for the h_i's: [0, 5, 5, 0]
+Affine constants: [[3, 9, 8], [9, 2, 7]]
+Plain text: [1, 1, 1]
+Cipher text: [7, 3, 6]
+Term order: degrevlex
+
+
+sage: gb = ideal(polys).groebner_basis(algorithm="singular:slimgb")
+sage: gb
+[y_3^2 - 5*y_3 - 5, z_1 - 2, x_1__1 + 5*y_3 - 5, x_2__1 - 3*y_3 - 4, x_3__1 - 5*y_3 - 5, z_2 - 5*y_3 + 1, y_1 - 4*y_3 - 5, y_2 + 3*y_3 + 3]
+
+sage: ideal(gb).variety()
+[{y_3: 3, y_2: 10, y_1: 6, z_2: 3, x_3__1: 9, x_2__1: 2, x_1__1: 1, z_1: 2}, 
+ {y_3: 2, y_2: 2, y_1: 2, z_2: 9, x_3__1: 4, x_2__1: 10, x_1__1: 6, z_1: 2}]
+
+sage: polys_naive = generate_Arion_polynomials(field=field,
+                                               branches=branches,
+                                               rounds=rounds,
+                                               d_1=d_1,
+                                               d_2=d_2,
+                                               constants_g=constants_g,
+                                               constants_h=constants_h,
+                                               constants_aff=constants_aff,
+                                               plain=plain,
+                                               cipher=cipher,
+                                               field_equations=True,
+                                               naive_model=True)
+sage: gb_naive = ideal(polys_naive).groebner_basis(algorithm="singular:slimgb")
+sage: gb_naive
+[y_3^2 - 5*y_3 - 5, z_1 - 2, x_1__1 + 5*y_3 - 5, x_2__1 - 3*y_3 - 4, x_3__1 - 5*y_3 - 5, z_2 - 5*y_3 + 1, y_1 - 4*y_3 - 5, y_2 + 3*y_3 + 3]
+sage: ideal(gb) == ideal(gb_naive)
+True
 ````
