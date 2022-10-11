@@ -139,6 +139,8 @@ class Arion:
         return v_out
     
     def encrypt(self, plain, key):
+        if len(plain) != self.branches:
+            raise Exception("Plain text length does not match branch number.")
         if len(flatten(key)) != (self.rounds + 1) * self.branches:
             raise Exception("Number of keys does not matach rounds plus one times branches.")
         
