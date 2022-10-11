@@ -62,7 +62,7 @@ class Arion:
                 if legendre_symbol(pair[0]**2 - 4 * pair[1], self.field.characteristic()) != -1:
                     raise Exception("The constant pair (" + str(pair[0]) + ", " + str(pair[1]) + ") for g_i has zeros over " + str(self.field) + ".")
         
-        self.constants_h = None
+        self.constants_h = constants_h
         if self.constants_h is None:
             self.constants_h = []
             for i in range(0, self.rounds * (self.branches - 1)):
