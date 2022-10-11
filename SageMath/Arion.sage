@@ -180,7 +180,7 @@ class Arion:
     
     def decrypt(self, plain, key):
         if len(flatten(key)) != (self.rounds + 1) * self.branches:
-            raise Exception("Number of keys does not matach rounds plus one times branches.")
+            raise Exception("Number of keys does not match rounds plus one times branches.")
         
         v_out = vector(self.field, plain)
         for r in range(self.rounds - 1, -1, -1):

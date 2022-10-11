@@ -150,9 +150,6 @@ class ArionHash:
         return v_out
     
     def hash(self, plain):
-        if len(flatten(key)) != (self.rounds + 1) * self.branches:
-            raise Exception("Number of keys does not matach rounds plus one times branches.")
-        
         if not type(plain) is list:
             plain = [plain]
         # Padding of plain
