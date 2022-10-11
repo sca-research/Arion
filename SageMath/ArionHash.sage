@@ -117,12 +117,13 @@ class ArionHash:
         print("Initial value: " + str(self.initial_value))
     
     def evaluate_g_and_h(self, x_in, constants_g, constant_h):
+        # Constant term
         out_g = constants_g[1]
         out_h = self.field(0)
-        
+        # Linear term
         out_g += x_in * constants_g[0]
         out_h += x_in * constant_h
-        
+        # Quadratic term
         x_temp = x_in**2
         out_g += x_temp
         out_h += x_temp
