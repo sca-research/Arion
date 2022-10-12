@@ -64,7 +64,8 @@ sage: cipher
 
 sage: arion.decrypt(cipher, key) == plain
 True
-````
+```
+
 **Usage of ArionHash Reference Implementation**
 ```Python
 sage: load("ArionHash.sage")
@@ -118,9 +119,10 @@ sage: plain = 3 * [1]
 sage: hash_val = arion_hash.hash(plain)
 sage: hash_val
 748
-````
+```
+
 **Usage of Arion density experiment**
-````Python
+```Python
 sage: load("Arion_density_experiment.sage")
 sage: field = GF(19)
 sage: branches = 3
@@ -154,6 +156,7 @@ Density of polynomials: [6514, 6508, 6529]
 Round: 3
 Density of polynomials: [6512, 6465, 6518]
 ```
+
 **Usage of Arion polynomial model**
 ```Python
 sage: load("Arion.sage")
@@ -232,6 +235,69 @@ x_3__1^3 - z_2
 sage: gb_naive = ideal(polys_naive).groebner_basis(algorithm="singular:slimgb")
 sage: gb_naive
 [y_3^2 - 5*y_3 - 5, z_1 - 2, x_1__1 + 5*y_3 - 5, x_2__1 - 3*y_3 - 4, x_3__1 - 5*y_3 - 5, z_2 - 5*y_3 + 1, y_1 - 4*y_3 - 5, y_2 + 3*y_3 + 3]
+sage: ideal(gb) == ideal(gb_naive)
+True
+```
+
+**Usage of ArionHash polynomial model**
+```Python
+sage: load("ArionHash.sage")
+sage: load("ArionHash_polynomial_model.sage")
+sage: field = GF(11)
+sage: branches = 3
+sage: rounds = 3
+sage: capacity = 2
+sage: d_1 = 3
+sage: d_2 = 7
+sage: constants_g = [[2, 10], [9, 10], [4, 2], [3, 9], [1, 8], [6, 7]]
+sage: constants_h = [2, 6, 3, 9, 4, 0]
+sage: constants_aff = [[2, 6, 3], [7, 1, 5], [0, 3, 4]]
+sage: arion_hash = ArionHash(field=field,
+                             branches=branches,
+                             rounds=rounds,
+                             capacity=capacity,
+                             d_1=d_1,
+                             d_2=d_2,
+                             constants_g=constants_g,
+                             constants_h=constants_h,
+                             constants_aff=constants_aff)
+sage: plain = 7
+sage: hash_value = arion_hash.hash(plain)
+sage: hash_value
+5
+sage: polys = generate_ArionHash_polynomials(field=field,
+                                             branches=branches,
+                                             rounds=rounds,
+                                             capacity=capacity,
+                                             d_1=d_1,
+                                             d_2=d_2,
+                                             constants_g=constants_g,
+                                             constants_h=constants_h,
+                                             constants_aff=constants_aff,
+                                             hash_val=hash_val,
+                                             field_equations=True)
+sage: gb = ideal(polys).groebner_basis(algorithm="singular:slimgb")
+sage: gb
+
+[x_out_2^2 - 3*x_out_2 + 1, x_out_2*x_out_3 + 2*x_out_3, x_out_3^2 - 3*x_out_2 + 4*x_out_3 + 4, x_in_1 + 3*x_out_2 - 4*x_out_3, z_1 + 3*x_out_2 + 4*x_out_3 + 2, x_1__1 - 5*x_out_2 + 4*x_out_3, x_2__1 + 3*x_out_2 - 4*x_out_3 - 5, x_3__1 - 4*x_out_2 - 3*x_out_3 - 5, z_2 + 3*x_out_2 + 5*x_out_3 + 2, x_1__2 + 3*x_out_2 - 3*x_out_3 + 4, x_2__2 + 2*x_out_2 + 2*x_out_3 + 2, x_3__2 - 4*x_out_2 - 2*x_out_3 - 5, z_3 + 3*x_out_2 - 4*x_out_3 + 2]
+sage: ideal(gb_variety)
+[{x_out_3: 0, x_out_2: 5, z_3: 5, x_3__2: 3, x_2__2: 10, x_1__2: 3, z_2: 5, x_3__1: 3, x_2__1: 1, x_1__1: 3, z_1: 5, x_in_1: 7},
+ {x_out_3: 5, x_out_2: 9, z_3: 2, x_3__2: 7, x_2__2: 3, x_1__2: 6, z_2: 1, x_3__1: 1, x_2__1: 9, x_1__1: 3, z_1: 6, x_in_1: 4},
+ {x_out_3: 2, x_out_2: 9, z_3: 1, x_3__2: 1, x_2__2: 9, x_1__2: 8, z_2: 5, x_3__1: 3, x_2__1: 8, x_1__1: 4, z_1: 7, x_in_1: 3}]
+
+sage: polys_naive = generate_ArionHash_polynomials(field=field,
+                                                   branches=branches,
+                                                   rounds=rounds,
+                                                   capacity=capacity,
+                                                   d_1=d_1,
+                                                   d_2=d_2,
+                                                   constants_g=constants_g,
+                                                   constants_h=constants_h,
+                                                   constants_aff=constants_aff,
+                                                   hash_val=hash_val,
+                                                   field_equations=True,
+                                                   naive_model=True)
+sage: gb_naive = ideal(polys_naive).groebner_basis(algorithm="singular:slimgb")
 sage: ideal(gb) == ideal(gb_naive)
 True
 ```
