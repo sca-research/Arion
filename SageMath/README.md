@@ -1,10 +1,10 @@
 # Arion SageMath Reference Implementation
 Contains a reference implementation of Arion in [SageMath](https://www.sagemath.org/) and the density experiment for the Arion permutation.
 
-### Installation
+## Installation
 **Requirements**: All scripts have been developed and tested with SageMath 9.3.
 
-### Examples
+## Examples
 **Usage of Arion Reference Implementation**
 ````Python
 sage: load("Arion.sage")
