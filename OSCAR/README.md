@@ -61,7 +61,13 @@ julia> gb_naive = gb = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
  z_1 + 3
 ```
 
-**Usage of Arion quotient space dimension evolution experiment
+**Usage of Arion Gröbner basis computation experiment** 
+```shell
+$ cd /Path_to_Arion_implementation/
+$ JULIA_NUM_THREADS=N julia ./Arion_groebner_basis_computation.jl # N...number of threads you want to commit to Gröbner basis computation, the higher the faster.
+```
+
+**Usage of Arion quotient space dimension evolution experiment**
 ```shell
 $ cd /Path_to_Arion_implementation/
 $ JULIA_NUM_THREADS=N julia ./Arion_quotient_space_dimension_evolution.jl # N...number of threads you want to commit to Gröbner basis computation, the higher the faster.

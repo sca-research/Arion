@@ -1,39 +1,5 @@
 using Oscar
-
-function legendre_symbol(x, p)
-    p = convert(Int, p)
-    e = convert(Int, (p - 1) / 2)
-    val = x^e
-    if typeof(val) == gfp_elem
-        if val == 0
-            return 0
-        elseif val == 1
-            return 1
-        else
-            return -1
-        end
-    end
-    val = val % p
-    if val == 0.0
-        return 0
-    elseif val == 1.0
-        return 1
-    else
-        return -1
-    end
-end
-
-function int_vector_to_field_matrix(v_in, field)
-    v_out = zero_matrix(field, length(v_in), 1)
-    for i in 1:length(v_in)
-        try
-            v_out[i, 1] = field(v_in[i])
-        catch
-            v_out[i, 1] = field(v_in[i, 1])
-        end
-    end
-    return v_out
-end
+include("utilities.jl")
 
 struct Arion
     field::Nemo.GaloisField
