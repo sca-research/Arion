@@ -121,6 +121,12 @@ $ cd /Path_to_Arion_implementation/
 $ JULIA_NUM_THREADS=N julia ./Arion_groebner_basis_computation.jl # N...number of threads you want to commit to Gröbner basis computation, the higher the faster.
 ```
 
+**Usage of ArionHash Gröbner basis computation experiment** 
+```shell
+$ cd /Path_to_Arion_implementation/
+$ JULIA_NUM_THREADS=N julia ./ArionHash_groebner_basis_computation.jl # N...number of threads you want to commit to Gröbner basis computation, the higher the faster.
+```
+
 **Usage of Arion quotient space dimension evolution experiment**
 ```shell
 $ cd /Path_to_Arion_implementation/
