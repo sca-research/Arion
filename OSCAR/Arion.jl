@@ -23,6 +23,18 @@ function legendre_symbol(x, p)
     end
 end
 
+function int_vector_to_field_matrix(v_in, field)
+    v_out = zero_matrix(field, length(v_in), 1)
+    for i in 1:length(v_in)
+        try
+            v_out[i, 1] = field(v_in[i])
+        catch
+            v_out[i, 1] = field(v_in[i, 1])
+        end
+    end
+    return v_out
+end
+
 struct Arion
     field::Nemo.GaloisField
     branches::Int64
@@ -61,10 +73,12 @@ function Arion_constructor(;field=GF(1009),
         end
     end
     e_1 = gcdx(d_1, q - 1)[2]
-    while e_1 < 0 || e_1 > q - 1
+    while e_1 < 0
         e_1 += q - 1
     end
-
+    while q - 1 < e_1 
+        e_1 -= q - 1
+    end
     if d_2 == -1
         found = false
         for d in [257, 161, 129, 125, 123, 121]
@@ -84,8 +98,11 @@ function Arion_constructor(;field=GF(1009),
         end
     end
     e_2 = gcdx(d_2, q - 1)[2]
-    while e_2 < 0 || e_2 > q - 1
+    while e_2 < 0
         e_2 += q - 1
+    end
+    while q - 1 < e_2 
+        e_2 -= q - 1
     end
 
     mat = zero_matrix(field, branches, branches)
@@ -114,6 +131,7 @@ function Arion_constructor(;field=GF(1009),
             end
         end
     else
+        constants_g = matrix(field, reshape(constants_g, (branches - 1) * rounds, 2))
         if ncols(constants_g) * nrows(constants_g) != rounds * (branches - 1) * 2
             println("Number of round constants for the polynomials g_i does not match branches minus one times the number of rounds times two.")
             return
@@ -130,6 +148,7 @@ function Arion_constructor(;field=GF(1009),
             end
         end
     else
+        constants_h = matrix(field, reshape(constants_h, (branches - 1) * rounds, 1))
         if ncols(constants_h) * nrows(constants_h) != rounds * (branches - 1)
             println("Number of round constants for the polynomials h_i does not match branches minus one times the number of rounds times two.")
             return
@@ -144,6 +163,7 @@ function Arion_constructor(;field=GF(1009),
             end
         end
     else
+        constants_aff = matrix(field, reshape(constants_aff, rounds, branches))
         if ncols(constants_aff) * nrows(constants_aff) != rounds * branches
             println("Number of affine round constants does not match branches times the number of rounds.")
             return
@@ -209,23 +229,8 @@ function round_function(v_in, key, branches, d, e, constants_g, constants_h, con
 end
 
 function encrypt(plain, key, arion::Arion)
-    cipher = zero_matrix(arion.field, arion.branches, 1)
-    for i in 1:length(plain)
-        try
-            cipher[i, 1] = arion.field(plain[i])
-        catch
-            cipher[i, 1] = arion.field(plain[i, 1])
-        end
-    end
-    key_copy = zero_matrix(arion.field, arion.branches, 1)
-    for i in 1:length(key)
-        try
-            key_copy[i, 1] = arion.field(key[i])
-        catch
-            key_copy[i, 1] = arion.field(key[i, 1])
-        end
-    end
-    key = key_copy
+    cipher = int_vector_to_field_matrix(plain, arion.field)
+    key = int_vector_to_field_matrix(key, arion.field)
 
     cipher = arion.matrix * key_addition(cipher, key)
     for r in 1:arion.rounds

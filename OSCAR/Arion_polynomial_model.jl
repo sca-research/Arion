@@ -74,6 +74,18 @@ function generate_Arion_polynomials(;arion=Arion_constructor(),
             end
             cipher = encrypt(plain, key, arion)
         end
+    else
+        plain = int_vector_to_field_matrix(plain, arion.field)
+        if cipher == nothing
+            print_key = true
+            key = zero_matrix(arion.field, arion.branches, 1)
+            for i in 1:arion.branches
+                key[i, 1] = rand(arion.field)
+            end
+            cipher = encrypt(plain, key, arion)
+        else
+            cipher = int_vector_to_field_matrix(cipher, arion.field)
+        end
     end
 
     println("Plain text: ", plain)
