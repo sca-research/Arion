@@ -165,8 +165,8 @@ class ArionHash:
         for i in range(0, len(plain), self.rate):
             for j in range(0, self.rate):
                 state[j] += plain[i:i + self.rate][j]
+            state = self.matrix * state
             for r in range(0, self.rounds):
-                state = self.matrix * state
                 state = self.round_function(state,
                                             self.constants_g[r * (self.branches - 1):(r + 1) * (self.branches - 1)],
                                             self.constants_h[r * (self.branches - 1):(r + 1) * (self.branches - 1)],
