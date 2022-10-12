@@ -96,7 +96,7 @@ function generate_Arion_polynomials(;arion=Arion_constructor(),
         current_state = arion.matrix * (plain + key_variables)
         tmp = current_state[arion.branches, 1]
         current_state[arion.branches, 1] = variables[index]
-        next_state = matrix(variables[index + 1:arion.branches + 1])
+        next_state = matrix(variables[index + 1:index + arion.branches])
         polynomials = append_polynomial_matrix_to_vector(polynomials, round_function_Arion_polynomial_model(current_state,
                                                                                                             tmp,
                                                                                                             key_variables,

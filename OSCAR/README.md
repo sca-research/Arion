@@ -61,6 +61,60 @@ julia> gb_naive = gb = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
  z_1 + 3
 ```
 
+## Examples
+**Usage of Arion polynomial model in OSCAR**
+```julia
+julia> include("ArionHash_polynomial_model.jl")
+julia> field = GF(17)
+julia> branches = 3
+julia> rounds = 2
+julia> capacity = 2
+julia> d_1 = 3
+julia> d_2 = 5
+julia> constants_g = [14 12; 16 7; 15 4; 7 2]
+julia> constants_h = [3; 9; 4; 3]
+julia> constants_aff = [14 12 8; 0 12 13]
+julia> arion_hash = ArionHash_constructor(field=field,
+                                          branches=branches,
+                                          rounds=rounds,
+                                          capacity=capacity,
+                                          d_1=d_1,
+                                          d_2=d_2,
+                                          constants_g=constants_g,
+                                          constants_h=constants_h,
+                                          constants_aff=constants_aff);
+julia> plain = [5]
+julia> hash_val = hash(plain, arion_hash)
+7
+julia> polys = generate_ArionHash_polynomials(arion_hash=arion_hash,
+                                              hash_val=hash_val,
+                                              field_equations=true);
+julia> gb = f4(ideal(polys), nr_thrds=16, info_level=2)
+8-element Vector{gfp_mpoly}:
+ x_out__3 + 5
+ x_out__2 + 7
+ z_2 + 16
+ x_3__1 + 16
+ x_2__1
+ x_1__1 + 12
+ z_1 + 6
+ x_in__1 + 12
+ julia> polys_naive = generate_ArionHash_polynomials(arion_hash=arion_hash,
+                                                     hash_val=hash_val,
+                                                     field_equations=true,
+                                                     naive_model=true);
+julia> gb_naive = gb = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
+8-element Vector{gfp_mpoly}:
+ x_out__3 + 5
+ x_out__2 + 7
+ z_2 + 16
+ x_3__1 + 16
+ x_2__1
+ x_1__1 + 12
+ z_1 + 6
+ x_in__1 + 12
+```
+
 **Usage of Arion Gröbner basis computation experiment** 
 ```shell
 $ cd /Path_to_Arion_implementation/

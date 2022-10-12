@@ -236,13 +236,13 @@ function hash(plain, arion_hash::ArionHash)
     if m < n
         state[arion_hash.rate + 1, 1] = arion_hash.field(m)
     end
-
+    
     for i in 1:arion_hash.rate:n
         for j in 1:arion_hash.rate
             state[j, 1] += plain_padded[i:i + arion_hash.rate - 1, :][j]
         end
+        state = arion_hash.matrix * state
         for r in 1:arion_hash.rounds
-            state = arion_hash.matrix * state
             state = round_function(state,
                                    arion_hash.branches,
                                    arion_hash.d_1,
