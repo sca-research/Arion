@@ -2,7 +2,7 @@
 Contains a reference implementation of Arion in [SageMath](https://www.sagemath.org/) and the density experiment for the Arion permutation.
 
 ## Installation
-**Requirements**: All scripts have been developed and tested with SageMath 9.3.
+**Requirements**: All scripts have been developed and tested with [SageMath](https://www.sagemath.org/) 9.3.
 
 ## Examples
 **Usage of Arion Reference Implementation**
