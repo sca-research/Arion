@@ -1,12 +1,12 @@
 # Arion SageMath Reference Implementation
 Contains a reference implementation of Arion in [SageMath](https://www.sagemath.org/) and the density experiment for the Arion permutation.
 
-### Installation
+## Installation
 **Requirements**: All scripts have been developed and tested with SageMath 9.3.
 
-### Examples
+## Examples
 **Usage of Arion Reference Implementation**
-````Python
+```Python
 sage: load("Arion.sage")
 sage: field = GF(1009)
 sage: branches = 3
@@ -66,7 +66,7 @@ sage: arion.decrypt(cipher, key) == plain
 True
 ````
 **Usage of ArionHash Reference Implementation**
-````Python
+```Python
 sage: load("ArionHash.sage")
 sage: field = GF(1009)
 sage: branches = 3
@@ -153,9 +153,9 @@ Round: 2
 Density of polynomials: [6514, 6508, 6529]
 Round: 3
 Density of polynomials: [6512, 6465, 6518]
-````
+```
 **Usage of Arion polynomial model**
-````Python
+```Python
 sage: load("Arion.sage")
 sage: load("Arion_polynomial_model.sage")
 sage: field = GF(11)
@@ -234,4 +234,4 @@ sage: gb_naive
 [y_3^2 - 5*y_3 - 5, z_1 - 2, x_1__1 + 5*y_3 - 5, x_2__1 - 3*y_3 - 4, x_3__1 - 5*y_3 - 5, z_2 - 5*y_3 + 1, y_1 - 4*y_3 - 5, y_2 + 3*y_3 + 3]
 sage: ideal(gb) == ideal(gb_naive)
 True
-````
+```
