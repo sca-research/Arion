@@ -18,7 +18,7 @@ function divisible_by_leading_monomial(monom, leading_monoms)
     end
 end
 
-function vector_space_basis(gb;sort_basis=true)
+function vector_space_basis(gb; sort_basis=true)
     poly_ring = parent(gb[1])
     variables = gens(poly_ring)
     lms = copy(gb)
