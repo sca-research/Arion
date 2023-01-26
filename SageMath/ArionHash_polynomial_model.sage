@@ -20,7 +20,7 @@ def generate_variables(branches, rate, rounds):
 def evaluate_g_and_h(x_in, constants_g, constant_h):
     # Constant term
     out_g = constants_g[1]
-    out_h = field(0)
+    out_h = 0
     # Linear term
     out_g += x_in * constants_g[0]
     out_h += x_in * constant_h
