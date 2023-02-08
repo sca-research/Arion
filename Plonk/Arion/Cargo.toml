@@ -61,3 +61,19 @@ codegen-units = 1
 [[bench]]
 name = "merkle"
 harness = false
+
+[[bench]]
+name = "merkle_depth_4"
+harness = false
+
+[[bench]]
+name = "merkle_depth_8"
+harness = false
+
+[[bench]]
+name = "merkle_depth_16"
+harness = false
+
+[[bench]]
+name = "merkle_depth_32"
+harness = false
