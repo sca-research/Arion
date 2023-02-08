@@ -2,7 +2,7 @@
 name = "arion"
 version = "0.1.0"
 edition = "2021"
-description ="Implementation of Arion permutation algorithm over the Bls12-381 Scalar field."
+description ="Implementation of ArionHash algorithm over the Bls12-381 Scalar field."
 categories = ["algorithms", "cryptography", "no-std", "wasm"]
 keywords = ["cryptography", "zero-knowledge", "crypto"]
 
