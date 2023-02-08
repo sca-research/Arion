@@ -21,7 +21,12 @@ end
 function vector_space_basis(gb; sort_basis=true)
     poly_ring = parent(gb[1])
     variables = gens(poly_ring)
-    lms = copy(gb)
+    lms = Vector{typeof(gb[1])}()
+    try
+        lms = copy(gb)
+    catch
+        lms = copy(gens(gb))
+    end
     for i in 1:length(gb)
         lms[i] = leading_monomial(lms[i])
     end

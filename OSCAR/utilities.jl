@@ -22,7 +22,12 @@ function legendre_symbol(x, p)
 end
 
 function get_leading_monomials(polys)
-    lms = copy(polys)
+    lms = Vector{typeof(polys[1])}()
+    try
+        lms = copy(polys)
+    catch
+        lms = copy(gens(polys))
+    end
     for i in 1:length(polys)
         lms[i] = leading_monomial(lms[i])
     end
