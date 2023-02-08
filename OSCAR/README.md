@@ -2,7 +2,7 @@
 Contains the [OSCAR](https://oscar.computeralgebra.de/) Gröbner basis attack implementation of Arion and ArionHash.
 
 ## Installation
-**Requirements**: All scripts have been developed and tested with [Julia](https://julialang.org/) 1.8.4 and [OSCAR](https://oscar.computeralgebra.de/) 0.11.2
+**Requirements**: All scripts have been developed and tested with [Julia](https://julialang.org/) 1.8.4 and [OSCAR](https://oscar.computeralgebra.de/) 0.11.2.
 
 Currently, [OSCAR](https://oscar.computeralgebra.de/) can only be installed on Linux systems.
 Therefore, Windows users first have to activate the (Windows Subsystem for Linux)[https://learn.microsoft.com/en-us/windows/wsl/install].
@@ -18,7 +18,7 @@ make
 To install [OSCAR](https://oscar.computeralgebra.de/) in [Julia](https://julialang.org/) execute
 ```julia
 julia> using Pkg
-julia> Pkg.add("Oscar")
+julia> Pkg.add(name="Oscar", version="0.11.2")
 julia> using Oscar
 ```
 For parallelization the following [Julia](https://julialang.org/) must also be installed
