@@ -146,7 +146,3 @@ criterion_group! {
     targets = bench_opening_proof
 }
 criterion_main!(benches);
-
-fn main() {
-    let x = 0;
-}
