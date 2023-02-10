@@ -1,6 +1,6 @@
 # Arion SageMath Reference Implementation
 Contains a reference implementation of Arion in [SageMath](https://www.sagemath.org/) and the density experiment for the Arion permutation.
-It also contains SageMath notebooks to 
+It also contains [SageMath](https://www.sagemath.org/) notebooks to 
  - estimate the security level of Arion for differential and linear cryptanalysis, and
  - to compute the number of R1CS and Plonk constraints for ArionHash,
 
