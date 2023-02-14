@@ -21,8 +21,12 @@ During benchmark execution, the following additional directories/files are creat
 - `log`: contains the benchmark logs, in chronological order.
 
 ## Requirements
+On Ubuntu 22 run
 ```shell
 sudo apt-get install build-essential git-all libboost-all-dev cmake libgmp-dev libssl-dev libprocps-dev pkg-config gnuplot-x11 libsodium-dev
+```
+On Ubuntu 20 additionally run
+```shell
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt-get install gcc-11 g++-11
 sudo ln -fs /usr/bin/g++-11 /usr/bin/g++

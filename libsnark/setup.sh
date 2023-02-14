@@ -30,7 +30,7 @@ cd ..
 printf "\nDownloading libff"
 git clone https://github.com/scipr-lab/libff.git
 cd ./libff
-git checkout 674e437
+git checkout 176f3f4
 cd ..
 
 printf "\nDownloading libsnark-supercop"
@@ -48,7 +48,8 @@ cd ..
 printf "\nDownloading libfqfft"
 git clone https://github.com/scipr-lab/libfqfft.git
 cd ./libfqfft
-git checkout 7d460ca
+git checkout 7e1e957
+
 printf "\nInstalling libfqfft"
 cd ./depends
 rm -r ./ate-pairing
