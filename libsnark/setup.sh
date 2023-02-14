@@ -73,4 +73,6 @@ sudo make install
 cd .. && cd ..
 
 printf "\nBuilding hash function project"
+
+mkdir ./bin
 make -j16
