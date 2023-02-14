@@ -21,26 +21,22 @@ During benchmark execution, the following additional directories/files are creat
 - `log`: contains the benchmark logs, in chronological order.
 
 ## Requirements
-A C++20 compiler and `git`.
-To install them run
 ```shell
-sudo apt-get install git-all
-```
-and
-```shell
-sudo apt install gcc-11 g++-11
+sudo apt-get install build-essential git-all libboost-all-dev cmake libgmp-dev libssl-dev libprocps-dev pkg-config gnuplot-x11 libsodium-dev
+sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+sudo apt-get install gcc-11 g++-11
 sudo ln -fs /usr/bin/g++-11 /usr/bin/g++
 sudo ln -fs /usr/bin/g++-11 /usr/bin/c++
 sudo ln -fs /usr/bin/gcc-11 /usr/bin/gcc
 ```
 
 ## Configuring, building and testing
-This repository depends on the the following fork+branch of the official `libsnark` library:
+This repository depends on the following fork+branch of the official `libsnark` library:
 > https://github.com/alexander-zw/libsnark/tree/update-libff
 
 If you didn't install `libsnark` manually, then simply run
 ```shell
-sudo ./setup.sh
+sh ./setup.sh
 ```
 to install `libsnark` and build the library. 
 
