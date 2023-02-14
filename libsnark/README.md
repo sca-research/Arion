@@ -1,4 +1,4 @@
-# zkp_hash
+# libsnark Implementation of ArionHash
 This library contains implementations, test files and benchmarks of template-parametrized ZK-native permutations and Merkle Trees for ZK verifiable Merkle path authentication.
 
 ## Repository structure
@@ -53,7 +53,7 @@ make
 
 To launch all tests, simply run:
 ```shell
-./bin/test.sh
+sh ./bin/test.sh
 ```
 
 You can also execute specific tests by directly running the corresponding binaries in the `bin` directory.
@@ -62,3 +62,10 @@ You can also execute specific tests by directly running the corresponding binari
 For now, to modify the benchmark parameters you have to directly edit the `main()` function body of 
 the benchmark files in the `src` directory, and rebuild the project.
 Instructions on how to change the code are given as comments in the source files.
+
+To execute a benchmark run
+```shell
+./bin/benchmark_mtree
+```
+Log files will be generated in `libsnark/log`.
+Make sure that you always run the benchmark from the `libsnark` directory, else log files end up in digital Nirvana.
