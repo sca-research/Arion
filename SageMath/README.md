@@ -265,8 +265,8 @@ sage: arion_hash = ArionHash(field=field,
                              constants_h=constants_h,
                              constants_aff=constants_aff)
 sage: plain = 7
-sage: hash_value = arion_hash.hash(plain)
-sage: hash_value
+sage: hash_val = arion_hash.hash(plain)
+sage: hash_val
 5
 sage: polys = generate_ArionHash_polynomials(field=field,
                                              branches=branches,
