@@ -46,12 +46,12 @@ function generate_Arion_polynomials(;arion=Arion_constructor(),
                                      field_equations=false,
                                      naive_model=false)
     print_key = false
-    if plain == nothing
+    if isnothing(plain)
         plain = zero_matrix(arion.field, arion.branches, 1)
         for i in 1:arion.branches
             plain[i, 1] = rand(arion.field)
         end
-        if cipher == nothing
+        if isnothing(cipher)
             print_key = true
             key = zero_matrix(arion.field, arion.branches, 1)
             for i in 1:arion.branches
@@ -61,7 +61,7 @@ function generate_Arion_polynomials(;arion=Arion_constructor(),
         end
     else
         plain = int_vector_to_field_matrix(plain, arion.field)
-        if cipher == nothing
+        if isnothing(cipher)
             print_key = true
             key = zero_matrix(arion.field, arion.branches, 1)
             for i in 1:arion.branches

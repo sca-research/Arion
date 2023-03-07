@@ -91,7 +91,7 @@ function ArionHash_constructor(;field=GF(1009),
         end
     end
 
-    if constants_g == nothing
+    if isnothing(constants_g)
         constants_g = zero_matrix(field, (branches - 1) * rounds, 2)
         counter = 1
         for i in 1:rounds
@@ -115,7 +115,7 @@ function ArionHash_constructor(;field=GF(1009),
         end
     end
 
-    if constants_h == nothing
+    if isnothing(constants_h)
         constants_h = zero_matrix(field, (branches - 1) * rounds, 1)
         counter = 1
         for i in 1:rounds
@@ -132,7 +132,7 @@ function ArionHash_constructor(;field=GF(1009),
         end
     end
 
-    if constants_aff == nothing
+    if isnothing(constants_aff)
         constants_aff = zero_matrix(field, rounds, branches)
         for i in 1:rounds
             for j in 1:branches
@@ -147,7 +147,7 @@ function ArionHash_constructor(;field=GF(1009),
         end
     end
 
-    if initial_value == nothing
+    if isnothing(initial_value)
         initial_value = zero_matrix(field, branches, 1)
     end
 
