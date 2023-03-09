@@ -7,7 +7,7 @@ The code for generating Merkle trees and benchmarking is forked from [Poseidon25
 
 ## Usage
 
-To benchmark Arion make sure that [Rust](https://www.rust-lang.org/) is installed on your system.
+To benchmark ArionHash make sure that [Rust](https://www.rust-lang.org/) is installed on your system.
 Then one can compile and run the benchmark using the following commands.
 
 ```bash
