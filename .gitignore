@@ -1,0 +1,11 @@
+*.out
+build
+bin
+lib
+.vscode
+.vs
+*.log
+plots
+log
+a.out
+test.c
