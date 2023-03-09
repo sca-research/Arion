@@ -25,7 +25,7 @@ First install requirements for `libsnark`
 ```shell
 sudo apt-get install build-essential git-all libboost-all-dev cmake libgmp-dev libssl-dev libprocps-dev pkg-config gnuplot-x11 libsodium-dev
 ```
-On Ubuntu 20 one additionally needs to install a `C++-11` compiler 
+On Ubuntu 20 one additionally needs to install a `C++20` compliant compiler, like `gcc-11+`: 
 ```shell
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt-get install gcc-11 g++-11
