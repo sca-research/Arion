@@ -14,3 +14,8 @@ Then one can compile and run the benchmark using the following commands.
 cd Arion
 cargo bench
 ```
+To benchmark [Poseidon252](https://github.com/dusk-network/Poseidon252) use the following commands
+```bash
+cd "Poseidon Benchmark"
+cargo bench
+```
