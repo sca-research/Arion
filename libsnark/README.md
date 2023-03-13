@@ -1,5 +1,6 @@
 # libsnark Implementation of ArionHash
 This library contains implementations, test files and benchmarks of template-parametrized ZK-native permutations and Merkle Trees for ZK verifiable Merkle path authentication.
+This implementation is frozen at paper-preprint status, any future additions will be made in the following fork: https://github.com/byt3bit/zkp_hash
 
 ## Repository structure
 The repository is organized as follows:
