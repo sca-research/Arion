@@ -5,7 +5,7 @@ Contains the [OSCAR](https://oscar.computeralgebra.de/) Gröbner basis attack im
 **Requirements**: All scripts have been developed and tested with [Julia](https://julialang.org/) 1.8.4 and [OSCAR](https://oscar.computeralgebra.de/) 0.11.2.
 
 Currently, [OSCAR](https://oscar.computeralgebra.de/) can only be installed on Linux systems.
-Therefore, Windows users first have to activate the (Windows Subsystem for Linux)[https://learn.microsoft.com/en-us/windows/wsl/install].
+Therefore, Windows users first have to activate the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 To install [Julia](https://julialang.org/) one can for example build it from source via
 ```shell
