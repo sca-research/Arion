@@ -73,7 +73,7 @@ julia> gb = f4(ideal(polys), nr_thrds=16, info_level=2)
                                                  cipher=cipher,
                                                  field_equations=true,
                                                  naive_model=true);
-julia> gb_naive = gb = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
+julia> gb_naive = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
 8-element Vector{gfp_mpoly}:
  y_3 + 5
  y_2 + 10
@@ -127,7 +127,7 @@ julia> gb = f4(ideal(polys), nr_thrds=16, info_level=2)
                                                      hash_val=hash_val,
                                                      field_equations=true,
                                                      naive_model=true);
-julia> gb_naive = gb = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
+julia> gb_naive = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
 8-element Vector{gfp_mpoly}:
  x_out__3 + 5
  x_out__2 + 7
