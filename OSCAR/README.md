@@ -185,6 +185,7 @@ Gröbner basis with elements
 17 -> x_out_1__3^2 + 5*x_out_1__3 + 8
 with respect to the ordering
 degrevlex([x_in_1__1, z_1_1, x_1_1__1, x_1_2__1, x_1_3__1, z_1_2, x_out_1__2, x_out_1__3, x_in_2__1, z_2_1, x_2_1__1, x_2_2__1, x_2_3__1, z_2_2, x_out_2__2, x_out_2__3])
+
 julia> factor(gb[length(gb)])
 1 * (x_out_1__3 + 7) * (x_out_1__3 + 9)
 julia> hash(arion_hash.field(-3 * -7 - 6 * 0 - 4), arion_hash) # check solution for x_in__1_1

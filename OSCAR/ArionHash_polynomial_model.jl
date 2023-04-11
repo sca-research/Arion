@@ -46,7 +46,7 @@ function generate_ArionHash_polynomials(;arion_hash=ArionHash_constructor(),
                                          field_equations=false,
                                          naive_model=false)
     print_plain = false
-    if hash_val == nothing
+    if isnothing(hash_val)
         print_plain = true
         plain = zero_matrix(arion_hash.field, arion_hash.rate, 1)
         for i in 1:arion_hash.rate
