@@ -85,8 +85,7 @@ julia> gb_naive = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
  z_1 + 3
 ```
 
-## Examples
-**Usage of Arion polynomial model in OSCAR**
+**Usage of ArionHash polynomial model in OSCAR**
 ```julia
 julia> include("ArionHash_polynomial_model.jl")
 julia> field = GF(17)
@@ -139,6 +138,60 @@ julia> gb_naive = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
  x_in__1 + 12
 ```
 
+**Usage of ArionHash polynomial model in OSCAR**
+```julia
+julia> include("ArionHash_polynomial_model.jl")
+julia> field = GF(11)
+julia> branches = 3
+julia> rounds = 2
+julia> capacity = 2
+julia> d_1 = 3
+julia> d_2 = 3
+julia> constants_g = [3 1; 5 7; 4 4; 7 2]
+julia> constants_h = [3; 9; 4; 3]
+julia> constants_aff = [3 1 8; 0 1 2]
+julia> arion_hash = ArionHash_constructor(field=field,
+                                          branches=branches,
+                                          rounds=rounds,
+                                          capacity=capacity,
+                                          d_1=d_1,
+                                          d_2=d_2,
+                                          constants_g=constants_g,
+                                          constants_h=constants_h,
+                                          constants_aff=constants_aff);
+julia> polys = generate_ArionHash_collision_polynomials(arion_hash=arion_hash,
+                                                        field_equations=true);
+julia> variables = gens(parent(polys[1]));
+julia> I = ideal(polys);
+julia> J = ideal([variables[length(variables)] - 4]) # guess of one output state variable
+julia> gb = f4(I + J, nr_thrds=16, info_level=2)
+Gröbner basis with elements
+1 -> x_out_2__3 + 7
+2 -> z_2_2 + 6
+3 -> x_2_3__1 + 7
+4 -> x_2_2__1 + 10*x_out_2__2 + 3
+5 -> x_2_1__1 + 3*x_out_2__2 + 3
+6 -> z_2_1 + 6*x_out_2__2 + 10
+7 -> x_in_2__1 + 6*x_out_2__2 + 5
+8 -> x_out_1__2 + x_out_1__3 + 10*x_out_2__2 + 7
+9 -> z_1_2 + 4*x_out_1__3 + 1
+10 -> x_1_3__1 + 2*x_out_1__3 + 10
+11 -> x_1_2__1 + 9*x_out_1__3 + 10*x_out_2__2
+12 -> x_1_1__1 + 8*x_out_1__3 + 3*x_out_2__2 + 4
+13 -> z_1_1 + 6*x_out_2__2 + 10
+14 -> x_in_1__1 + 3*x_out_1__3 + 6*x_out_2__2 + 4
+15 -> x_out_2__2^2 + 4*x_out_2__2
+16 -> x_out_1__3*x_out_2__2 + 4*x_out_1__3 + 7*x_out_2__2 + 6
+17 -> x_out_1__3^2 + 5*x_out_1__3 + 8
+with respect to the ordering
+degrevlex([x_in_1__1, z_1_1, x_1_1__1, x_1_2__1, x_1_3__1, z_1_2, x_out_1__2, x_out_1__3, x_in_2__1, z_2_1, x_2_1__1, x_2_2__1, x_2_3__1, z_2_2, x_out_2__2, x_out_2__3])
+julia> factor(gb[length(gb)])
+1 * (x_out_1__3 + 7) * (x_out_1__3 + 9)
+julia> hash(arion_hash.field(-3 * -7 - 6 * 0 - 4), arion_hash) # check solution for x_in__1_1
+5
+julia> hash(arion_hash.field(-5), arion_hash) # check solution for x_in__2_1
+5
+```
 **Usage of Arion Gröbner basis computation experiment** 
 ```shell
 $ cd /Path_to_Arion_implementation/
