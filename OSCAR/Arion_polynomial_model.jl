@@ -5,15 +5,16 @@ include("utilities.jl")
 
 function generate_Arion_variables(branches, rounds)
     variables = String[]
-    push!(variables, "z_" * string(1))
     for i in 1:(rounds - 1)
         for j in 1:branches
             push!(variables, "x_" * string(j) * "__" * string(i))
         end
-        push!(variables, "z_" * string(i + 1))
     end
     for i in 1:branches
         push!(variables, "y_" * string(i))
+    end
+    for i in 1:rounds
+        push!(variables, "z_" * string(i))
     end
     return variables
 end
@@ -90,13 +91,13 @@ function generate_Arion_polynomials(;arion=Arion_constructor(),
     end
     
     polynomials = Vector{typeof(variables[1])}()
-    key_variables = matrix(variables[arion.branches * (arion.rounds - 1) + arion.rounds + 1:arion.branches * arion.rounds + arion.rounds])
+    key_variables = matrix(variables[arion.branches * (arion.rounds - 1) + 1:arion.branches * arion.rounds])
+    index = arion.branches * arion.rounds + 1
     if arion.rounds > 1
-        index = 1
         current_state = arion.matrix * (plain + key_variables)
         tmp = current_state[arion.branches, 1]
         current_state[arion.branches, 1] = variables[index]
-        next_state = matrix(variables[index + 1:index + arion.branches])
+        next_state = matrix(variables[1:arion.branches])
         polynomials = append_polynomial_matrix_to_vector(polynomials, round_function_Arion_polynomial_model(current_state,
                                                                                                             tmp,
                                                                                                             key_variables,
@@ -113,10 +114,10 @@ function generate_Arion_polynomials(;arion=Arion_constructor(),
         end
         index += 1
         for r in 1:arion.rounds - 2
-            current_state = matrix(variables[(r - 1) * arion.branches + index:r * arion.branches + index - 1])
+            current_state = matrix(variables[(r - 1) * arion.branches + 1:r * arion.branches])
             tmp = current_state[arion.branches, 1]
-            current_state[arion.branches, 1] = variables[r * arion.branches + index]
-            next_state = matrix(variables[r * arion.branches + index + 1:(r + 1) * arion.branches + index])
+            current_state[arion.branches, 1] = variables[index]
+            next_state = matrix(variables[r * arion.branches + 1:(r + 1) * arion.branches])
             polynomials = append_polynomial_matrix_to_vector(polynomials,
                                                              round_function_Arion_polynomial_model(current_state,
                                                                                                    tmp,
@@ -128,15 +129,15 @@ function generate_Arion_polynomials(;arion=Arion_constructor(),
                                                                                                    arion.constants_aff[r + 1,:],
                                                                                                    arion.matrix) - next_state)
             if naive_model
-                push!(polynomials, tmp^arion.e_2 - variables[r * arion.branches + index])
+                push!(polynomials, tmp^arion.e_2 - variables[index])
             else
-                push!(polynomials, tmp - variables[r * arion.branches + index]^arion.d_2)
+                push!(polynomials, tmp - variables[index]^arion.d_2)
             end
             index += 1
         end
-        current_state = matrix(variables[(arion.rounds - 2) * arion.branches + index:(arion.rounds - 1) * arion.branches + index - 1])
+        current_state = matrix(variables[(arion.rounds - 2) * arion.branches + 1:(arion.rounds - 1) * arion.branches])
         tmp = current_state[arion.branches, 1]
-        current_state[arion.branches, 1] = variables[(arion.rounds - 1) * arion.branches + index]
+        current_state[arion.branches, 1] = variables[index]
         polynomials = append_polynomial_matrix_to_vector(polynomials, 
                                                          round_function_Arion_polynomial_model(current_state,
                                                                                                tmp,
@@ -148,9 +149,9 @@ function generate_Arion_polynomials(;arion=Arion_constructor(),
                                                                                                arion.constants_aff[arion.rounds,:],
                                                                                                arion.matrix) - cipher)
         if naive_model
-            push!(polynomials, tmp^arion.e_2 - variables[(arion.rounds - 1) * arion.branches + index])
+            push!(polynomials, tmp^arion.e_2 - variables[index])
         else
-            push!(polynomials, tmp - variables[(arion.rounds - 1) * arion.branches + index]^arion.d_2)
+            push!(polynomials, tmp - variables[index]^arion.d_2)
         end
     else
         current_state = arion.matrix * (plain + key_variables)
@@ -166,9 +167,9 @@ function generate_Arion_polynomials(;arion=Arion_constructor(),
                                                                                                             arion.constants_aff[1,:],
                                                                                                             arion.matrix) - cipher)
         if naive_model
-            push!(polynomials, tmp^arion.e_2 - variables[1])
+            push!(polynomials, tmp^arion.e_2 - variables[index])
         else
-            push!(polynomials, tmp - variables[1]^arion.d_2)
+            push!(polynomials, tmp - variables[index]^arion.d_2)
         end
     end
     
