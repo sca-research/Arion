@@ -51,38 +51,41 @@ julia> arion = Arion_constructor(field=field,
 julia> plain = [13; 0; 14]
 julia> key = [12; 7; 12]
 julia> cipher = encrypt(plain, key, arion)
-[1]
-[5]
-[3]
+[1; 5; 3]
 julia> polys = generate_Arion_polynomials(arion=arion,
                                           plain=plain,
                                           cipher=cipher,
                                           field_equations=true);
 julia> gb = f4(ideal(polys), nr_thrds=16, info_level=2)
-8-element Vector{gfp_mpoly}:
- y_3 + 5
- y_2 + 10
- y_1 + 5
- z_2 + 15
- x_3__1 + 2
- x_2__1 + 11
- x_1__1 + 15
- z_1 + 3
- julia> polys_naive = generate_Arion_polynomials(arion=arion,
-                                                 plain=plain,
-                                                 cipher=cipher,
-                                                 field_equations=true,
-                                                 naive_model=true);
+Gröbner basis with elements
+1 -> z_2 + 15
+2 -> z_1 + 3
+3 -> y_3 + 5
+4 -> y_2 + 10
+5 -> y_1 + 5
+6 -> x_3__1 + 2
+7 -> x_2__1 + 11
+8 -> x_1__1 + 15
+with respect to the ordering 
+degrevlex([x_1__1, x_2__1, x_3__1, y_1, y_2, y_3, z_1, z_2])
+
+julia> polys_naive = generate_Arion_polynomials(arion=arion,
+                                                plain=plain,
+                                                cipher=cipher,
+                                                field_equations=true,
+                                                naive_model=true);
 julia> gb_naive = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
-8-element Vector{gfp_mpoly}:
- y_3 + 5
- y_2 + 10
- y_1 + 5
- z_2 + 15
- x_3__1 + 2
- x_2__1 + 11
- x_1__1 + 15
- z_1 + 3
+Gröbner basis with elements
+1 -> z_2 + 15
+2 -> z_1 + 3
+3 -> y_3 + 5
+4 -> y_2 + 10
+5 -> y_1 + 5
+6 -> x_3__1 + 2
+7 -> x_2__1 + 11
+8 -> x_1__1 + 15
+with respect to the ordering 
+degrevlex([x_1__1, x_2__1, x_3__1, y_1, y_2, y_3, z_1, z_2])
 ```
 
 **Usage of ArionHash polynomial model in OSCAR**
@@ -113,32 +116,37 @@ julia> polys = generate_ArionHash_polynomials(arion_hash=arion_hash,
                                               hash_val=hash_val,
                                               field_equations=true);
 julia> gb = f4(ideal(polys), nr_thrds=16, info_level=2)
-8-element Vector{gfp_mpoly}:
- x_out__3 + 5
- x_out__2 + 7
- z_2 + 16
- x_3__1 + 16
- x_2__1
- x_1__1 + 12
- z_1 + 6
- x_in__1 + 12
- julia> polys_naive = generate_ArionHash_polynomials(arion_hash=arion_hash,
-                                                     hash_val=hash_val,
-                                                     field_equations=true,
-                                                     naive_model=true);
+Gröbner basis with elements
+1 -> z_2 + 16
+2 -> z_1 + 6
+3 -> x_out__3 + 5
+4 -> x_out__2 + 7
+5 -> x_3__1 + 16
+6 -> x_2__1
+7 -> x_1__1 + 12
+8 -> x_in__1 + 12
+with respect to the ordering
+degrevlex([x_in__1, x_1__1, x_2__1, x_3__1, x_out__2, x_out__3, z_1, z_2])
+
+julia> polys_naive = generate_ArionHash_polynomials(arion_hash=arion_hash,
+                                                    hash_val=hash_val,
+                                                    field_equations=true,
+                                                    naive_model=true);
 julia> gb_naive = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
-8-element Vector{gfp_mpoly}:
- x_out__3 + 5
- x_out__2 + 7
- z_2 + 16
- x_3__1 + 16
- x_2__1
- x_1__1 + 12
- z_1 + 6
- x_in__1 + 12
+Gröbner basis with elements
+1 -> z_2 + 16
+2 -> z_1 + 6
+3 -> x_out__3 + 5
+4 -> x_out__2 + 7
+5 -> x_3__1 + 16
+6 -> x_2__1
+7 -> x_1__1 + 12
+8 -> x_in__1 + 12
+with respect to the ordering
+degrevlex([x_in__1, x_1__1, x_2__1, x_3__1, x_out__2, x_out__3, z_1, z_2])
 ```
 
-**Usage of ArionHash polynomial model in OSCAR**
+**Usage of ArionHash collision polynomial model in OSCAR**
 ```julia
 julia> include("ArionHash_polynomial_model.jl")
 julia> field = GF(11)
@@ -166,31 +174,33 @@ julia> I = ideal(polys);
 julia> J = ideal([variables[length(variables)] - 4]) # guess of one output state variable
 julia> gb = f4(I + J, nr_thrds=16, info_level=2)
 Gröbner basis with elements
-1 -> x_out_2__3 + 7
-2 -> z_2_2 + 6
-3 -> x_2_3__1 + 7
-4 -> x_2_2__1 + 10*x_out_2__2 + 3
-5 -> x_2_1__1 + 3*x_out_2__2 + 3
-6 -> z_2_1 + 6*x_out_2__2 + 10
-7 -> x_in_2__1 + 6*x_out_2__2 + 5
-8 -> x_out_1__2 + x_out_1__3 + 10*x_out_2__2 + 7
-9 -> z_1_2 + 4*x_out_1__3 + 1
-10 -> x_1_3__1 + 2*x_out_1__3 + 10
-11 -> x_1_2__1 + 9*x_out_1__3 + 10*x_out_2__2
-12 -> x_1_1__1 + 8*x_out_1__3 + 3*x_out_2__2 + 4
-13 -> z_1_1 + 6*x_out_2__2 + 10
-14 -> x_in_1__1 + 3*x_out_1__3 + 6*x_out_2__2 + 4
-15 -> x_out_2__2^2 + 4*x_out_2__2
-16 -> x_out_1__3*x_out_2__2 + 4*x_out_1__3 + 7*x_out_2__2 + 6
-17 -> x_out_1__3^2 + 5*x_out_1__3 + 8
+1 -> z_2_2 + 6
+2 -> x_out_2__3 + 7
+3 -> x_out_2__2 + 2*z_2_1 + 9
+4 -> x_2_3__1 + 7
+5 -> x_2_2__1 + 2*z_2_1 + 1
+6 -> x_2_1__1 + 5*z_2_1 + 9
+7 -> x_in_2__1 + 10*z_2_1 + 6
+8 -> z_1_1 + 10*z_2_1
+9 -> x_out_1__3 + 3*z_1_2 + 3
+10 -> x_out_1__2 + 8*z_1_2 + 2*z_2_1 + 2
+11 -> x_1_3__1 + 5*z_1_2 + 4
+12 -> x_1_2__1 + 6*z_1_2 + 2*z_2_1 + 4
+13 -> x_1_1__1 + 9*z_1_2 + 5*z_2_1 + 8
+14 -> x_in_1__1 + 2*z_1_2 + 10*z_2_1 + 7
+15 -> z_2_1^2 + 7*z_2_1 + 3
+16 -> z_1_2*z_2_1 + 8*z_1_2 + 6*z_2_1 + 4
+17 -> z_1_2^2 + 4*z_1_2 + 10
 with respect to the ordering
-degrevlex([x_in_1__1, z_1_1, x_1_1__1, x_1_2__1, x_1_3__1, z_1_2, x_out_1__2, x_out_1__3, x_in_2__1, z_2_1, x_2_1__1, x_2_2__1, x_2_3__1, z_2_2, x_out_2__2, x_out_2__3])
+degrevlex([x_in_1__1, x_1_1__1, x_1_2__1, x_1_3__1, x_out_1__2, x_out_1__3, z_1_1, z_1_2, x_in_2__1, x_2_1__1, x_2_2__1, x_2_3__1, x_out_2__2, x_out_2__3, z_2_1, z_2_2])
 
-julia> factor(gb[length(gb)])
-1 * (x_out_1__3 + 7) * (x_out_1__3 + 9)
-julia> hash(arion_hash.field(-3 * -7 - 6 * 0 - 4), arion_hash) # check solution for x_in__1_1
+julia> factor(gb[15])
+1 * (z_2_1 + 10) * (z_2_1 + 8)
+julia> factor(gb[17])
+1 * (z_1_2 + 6) * (z_1_2 + 9)
+julia> hash(arion_hash.field(-2 * -6 - 10 * -10 - 7), arion_hash) # check solution for x_in__1_1
 5
-julia> hash(arion_hash.field(-5), arion_hash) # check solution for x_in__2_1
+julia> hash(arion_hash.field(-10 * -10 - 6), arion_hash) # check solution for x_in__2_1
 5
 ```
 **Usage of Arion Gröbner basis computation experiment** 
