@@ -126,7 +126,7 @@ sage: hash_val
 
 **Usage of Arion density experiment**
 ```Python
-sage: load("Arion_density_experiment.sage")
+sage: load("Arion_permutation_density.sage")
 sage: field = GF(19)
 sage: branches = 3
 sage: rounds = 3
