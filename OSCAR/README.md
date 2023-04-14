@@ -174,34 +174,31 @@ julia> I = ideal(polys);
 julia> J = ideal([variables[length(variables)] - 4]) # guess of one output state variable
 julia> gb = f4(I + J, nr_thrds=16, info_level=2)
 Gröbner basis with elements
-1 -> z_2_2 + 6
-2 -> x_out_2__3 + 7
-3 -> x_out_2__2 + 2*z_2_1 + 9
-4 -> x_2_3__1 + 7
-5 -> x_2_2__1 + 2*z_2_1 + 1
-6 -> x_2_1__1 + 5*z_2_1 + 9
-7 -> x_in_2__1 + 10*z_2_1 + 6
-8 -> z_1_1 + 10*z_2_1
-9 -> x_out_1__3 + 3*z_1_2 + 3
-10 -> x_out_1__2 + 8*z_1_2 + 2*z_2_1 + 2
-11 -> x_1_3__1 + 5*z_1_2 + 4
-12 -> x_1_2__1 + 6*z_1_2 + 2*z_2_1 + 4
-13 -> x_1_1__1 + 9*z_1_2 + 5*z_2_1 + 8
-14 -> x_in_1__1 + 2*z_1_2 + 10*z_2_1 + 7
-15 -> z_2_1^2 + 7*z_2_1 + 3
-16 -> z_1_2*z_2_1 + 8*z_1_2 + 6*z_2_1 + 4
-17 -> z_1_2^2 + 4*z_1_2 + 10
+1 -> z_2_2 + 7
+2 -> z_2_1 + 5
+3 -> x_out_2__3 + 3
+4 -> x_out_2__2 + 10
+5 -> x_2_3__1 + 2
+6 -> x_2_2__1 + 8
+7 -> x_2_1__1
+8 -> x_in_2__1 + 2
+9 -> z_1_1 + z_1_2 + 1
+10 -> x_out_1__3 + 7*z_1_2 + 8
+11 -> x_out_1__2 + 6*z_1_2 + 8
+12 -> x_1_3__1 + 6*z_1_2
+13 -> x_1_2__1 + 9*z_1_2 + 5
+14 -> x_1_1__1 + 4*z_1_2 + 6
+15 -> x_in_1__1 + 10*z_1_2 + 6
+16 -> z_1_2^2 + 7*z_1_2
 with respect to the ordering
 degrevlex([x_in_1__1, x_1_1__1, x_1_2__1, x_1_3__1, x_out_1__2, x_out_1__3, z_1_1, z_1_2, x_in_2__1, x_2_1__1, x_2_2__1, x_2_3__1, x_out_2__2, x_out_2__3, z_2_1, z_2_2])
 
-julia> factor(gb[15])
-1 * (z_2_1 + 10) * (z_2_1 + 8)
-julia> factor(gb[17])
-1 * (z_1_2 + 6) * (z_1_2 + 9)
-julia> hash(arion_hash.field(-2 * -6 - 10 * -10 - 7), arion_hash) # check solution for x_in__1_1
-5
-julia> hash(arion_hash.field(-10 * -10 - 6), arion_hash) # check solution for x_in__2_1
-5
+julia> factor(gb[16])
+1 * (z_1_2 + 7) * z_1_2
+julia> hash(arion_hash.field(-6), arion_hash) # check solution for x_in__1_1
+2
+julia> hash(arion_hash.field(-2), arion_hash) # check solution for x_in__2_1
+2
 ```
 **Usage of Arion Gröbner basis computation experiment** 
 ```shell
