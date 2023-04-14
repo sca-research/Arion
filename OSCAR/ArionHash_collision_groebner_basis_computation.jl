@@ -10,30 +10,50 @@ parameters = [
 
 [1013, 3, 1, 2, 3],
 [1013, 4, 1, 3, 3],
+[1013, 5, 1, 4, 3],
 
 [10007, 2, 1, 1, 3],
 [10007, 2, 2, 1, 3],
 
 [10007, 3, 1, 2, 3],
 [10007, 4, 1, 3, 3],
+[10007, 5, 1, 4, 3],
 
 [1013, 2, 1, 1, 7],
+[1013, 2, 2, 1, 7],
+
 [1013, 3, 1, 2, 7],
+[1013, 3, 2, 2, 7],
+
+[1013, 4, 1, 3, 7],
 
 [10007, 2, 1, 1, 7],
+[10007, 2, 2, 1, 7],
+
 [10007, 3, 1, 2, 7],
+[10007, 3, 2, 2, 7],
+
+[10007, 4, 1, 3, 7],
 
 [1033, 2, 1, 1, 5],
+[1033, 2, 2, 1, 5],
+
 [1033, 3, 1, 2, 5],
+[1033, 4, 1, 3, 5],
 
 [15013, 2, 1, 1, 5],
+[15013, 2, 2, 1, 5],
+
 [15013, 3, 1, 2, 5],
+[15013, 4, 1, 3, 5],
 
 [1033, 2, 1, 1, 7],
 [1033, 3, 1, 2, 7],
+[1033, 4, 1, 3, 7],
 
 [15013, 2, 1, 1, 7],
 [15013, 3, 1, 2, 7],
+[15013, 4, 1, 3, 7],
 ]
 
 for param in parameters
@@ -50,10 +70,10 @@ for param in parameters
         println("Random guess: ", el)
         J = ideal([variables[length(variables) - arion_hash.rounds] - el])
         gb = f4(I + J, initial_hts=17, nr_thrds=Threads.nthreads(), max_nr_pairs=0, la_option=2, eliminate=0, complete_reduction=true, info_level=2)
-        println("Size of Gröbner basis: ", length(gb))
+        println("Size of Groebner basis: ", length(gb))
         basis = vector_space_basis(gb)
         println("Size of vector space basis: ", length(basis))
-        println("Leading monomials of Gröbner basis: ", get_leading_monomials(gb))
+        println("Leading monomials of Groebner basis: ", get_leading_monomials(gb))
         println("")
     end
 end
