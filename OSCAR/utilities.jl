@@ -21,30 +21,6 @@ function legendre_symbol(x, p)
     end
 end
 
-function get_leading_monomials(polys)
-    lms = Vector{typeof(polys[1])}()
-    try
-        lms = copy(polys)
-    catch
-        lms = copy(gens(polys))
-    end
-    for i in 1:length(polys)
-        lms[i] = leading_monomial(lms[i])
-    end
-    return lms
-end
-
-function get_maximum_degree(polys)
-    max_deg = 0
-    for i in 1:length(polys)
-        d = total_degree(polys[i])
-        if d > max_deg
-            max_deg = d
-        end
-    end
-    return max_deg
-end
-
 function append_polynomial_matrix_to_vector(poly_vector, poly_matrix)
     for i in 1:nrows(poly_matrix)
         temp_poly = poly_matrix[i, 1]
