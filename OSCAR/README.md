@@ -2,7 +2,7 @@
 Contains the [OSCAR](https://oscar.computeralgebra.de/) Gröbner basis attack implementation of Arion and ArionHash.
 
 ## Installation
-**Requirements**: All scripts have been developed and tested with [Julia](https://julialang.org/) 1.8.4 and [OSCAR](https://oscar.computeralgebra.de/) 0.11.2.
+**Requirements**: All scripts have been developed and tested with [Julia](https://julialang.org/) 1.8.4 and [OSCAR](https://oscar.computeralgebra.de/) 0.12.0.
 
 Currently, [OSCAR](https://oscar.computeralgebra.de/) can only be installed on Linux systems.
 Therefore, Windows users first have to activate the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install).
@@ -18,7 +18,7 @@ make
 To install [OSCAR](https://oscar.computeralgebra.de/) in [Julia](https://julialang.org/) execute
 ```julia
 julia> using Pkg
-julia> Pkg.add(name="Oscar", version="0.11.2")
+julia> Pkg.add(name="Oscar", version="0.12.0")
 julia> using Oscar
 ```
 For parallelization the following [Julia](https://julialang.org/) must also be installed
@@ -56,7 +56,7 @@ julia> polys = generate_Arion_polynomials(arion=arion,
                                           plain=plain,
                                           cipher=cipher,
                                           field_equations=true);
-julia> gb = f4(ideal(polys), nr_thrds=16, info_level=2)
+julia> gb = groebner_basis_f4(ideal(polys), nr_thrds=16, info_level=2)
 Gröbner basis with elements
 1 -> z_2 + 15
 2 -> z_1 + 3
@@ -74,7 +74,7 @@ julia> polys_naive = generate_Arion_polynomials(arion=arion,
                                                 cipher=cipher,
                                                 field_equations=true,
                                                 naive_model=true);
-julia> gb_naive = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
+julia> gb_naive = groebner_basis_f4(ideal(polys_naive), nr_thrds=16, info_level=2)
 Gröbner basis with elements
 1 -> z_2 + 15
 2 -> z_1 + 3
@@ -115,7 +115,7 @@ julia> hash_val = hash(plain, arion_hash)
 julia> polys = generate_ArionHash_polynomials(arion_hash=arion_hash,
                                               hash_val=hash_val,
                                               field_equations=true);
-julia> gb = f4(ideal(polys), nr_thrds=16, info_level=2)
+julia> gb = groebner_basis_f4(ideal(polys), nr_thrds=16, info_level=2)
 Gröbner basis with elements
 1 -> z_2 + 16
 2 -> z_1 + 6
@@ -132,7 +132,7 @@ julia> polys_naive = generate_ArionHash_polynomials(arion_hash=arion_hash,
                                                     hash_val=hash_val,
                                                     field_equations=true,
                                                     naive_model=true);
-julia> gb_naive = f4(ideal(polys_naive), nr_thrds=16, info_level=2)
+julia> gb_naive = groebner_basis_f4(ideal(polys_naive), nr_thrds=16, info_level=2)
 Gröbner basis with elements
 1 -> z_2 + 16
 2 -> z_1 + 6
@@ -172,7 +172,7 @@ julia> polys = generate_ArionHash_collision_polynomials(arion_hash=arion_hash,
 julia> variables = gens(parent(polys[1]));
 julia> I = ideal(polys);
 julia> J = ideal([variables[length(variables)] - 4]) # guess of one output state variable
-julia> gb = f4(I + J, nr_thrds=16, info_level=2)
+julia> gb = groebner_basis_f4(I + J, nr_thrds=16, info_level=2)
 Gröbner basis with elements
 1 -> z_2_2 + 7
 2 -> z_2_1 + 5
