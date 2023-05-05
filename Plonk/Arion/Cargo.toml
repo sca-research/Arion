@@ -77,3 +77,7 @@ harness = false
 [[bench]]
 name = "merkle_depth_32"
 harness = false
+
+[[bench]]
+name = "sponge"
+harness = false
