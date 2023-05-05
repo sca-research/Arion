@@ -101,18 +101,9 @@ impl Circuit for MerkleOpeningCircuit {
 }
 
 fn bench_opening_proof(c: &mut Criterion) {
-    // Benchmark circuit compilation
+    // Prepare benchmarks and initialize variables
     let label = b"dusk-network";
     let pp = PublicParameters::setup(1 << CAPACITY, &mut OsRng).unwrap();
-    let id = format!("Opening circuit compilation, depth = {}", DEPTH);
-    c.bench_function(&id, |b| {
-        b.iter(|| {
-            Compiler::compile::<MerkleOpeningCircuit>(black_box(&pp), label)
-                .expect("Circuit should compile");
-        })
-    });
-
-    // Generate prover and verifier for the upcomming benchmarks
     let (prover, verifier) =
         Compiler::compile::<MerkleOpeningCircuit>(&pp, label)
             .expect("Circuit should compile successfully");
@@ -122,8 +113,7 @@ fn bench_opening_proof(c: &mut Criterion) {
     let circuit = MerkleOpeningCircuit::random(&mut OsRng, &mut tree);
     let mut proof = Proof::default();
     let mut public_inputs = Vec::new();
-    let id = format!("Opening proof generation, depth = {}", DEPTH);
-    c.bench_function(&id, |b| {
+    c.bench_function("merkle opening proof generation", |b| {
         b.iter(|| {
             (proof, public_inputs) = prover
                 .prove(&mut OsRng, black_box(&circuit))
@@ -132,8 +122,7 @@ fn bench_opening_proof(c: &mut Criterion) {
     });
 
     // Benchmark proof verification
-    let id = format!("Opening proof verification, depth = {}", DEPTH);
-    c.bench_function(&id, |b| {
+    c.bench_function("merkle opening proof verification", |b| {
         b.iter(|| {
             verifier
                 .verify(black_box(&proof), &public_inputs)
@@ -142,7 +131,6 @@ fn bench_opening_proof(c: &mut Criterion) {
     });
 }
 
-// criterion_group!(benches, bench_opening_proof, bench_level_hash_proof);
 criterion_group! {
     name = benches;
     config = Criterion::default().sample_size(10);

@@ -1,3 +1,9 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+//
+// Copyright (c) DUSK NETWORK. All rights reserved.
+
 #![cfg(feature = "alloc")]
 
 use dusk_poseidon::tree::{self, PoseidonBranch, PoseidonLeaf, PoseidonTree};
@@ -101,17 +107,9 @@ impl Circuit for MerkleOpeningCircuit {
 }
 
 fn bench_opening_proof(c: &mut Criterion) {
-    // Benchmark circuit compilation
+    // Prepare benchmarks and initialize variables
     let label = b"dusk-network";
     let pp = PublicParameters::setup(1 << CAPACITY, &mut OsRng).unwrap();
-    c.bench_function("Opening circuit compilation", |b| {
-        b.iter(|| {
-            Compiler::compile::<MerkleOpeningCircuit>(black_box(&pp), label)
-                .expect("Circuit should compile");
-        })
-    });
-
-    // Generate prover and verifier for the upcomming benchmarks
     let (prover, verifier) =
         Compiler::compile::<MerkleOpeningCircuit>(&pp, label)
             .expect("Circuit should compile successfully");
@@ -121,7 +119,7 @@ fn bench_opening_proof(c: &mut Criterion) {
     let circuit = MerkleOpeningCircuit::random(&mut OsRng, &mut tree);
     let mut proof = Proof::default();
     let mut public_inputs = Vec::new();
-    c.bench_function("opening proof generation", |b| {
+    c.bench_function("merkle opening proof generation", |b| {
         b.iter(|| {
             (proof, public_inputs) = prover
                 .prove(&mut OsRng, black_box(&circuit))
@@ -130,7 +128,7 @@ fn bench_opening_proof(c: &mut Criterion) {
     });
 
     // Benchmark proof verification
-    c.bench_function("opening proof verification", |b| {
+    c.bench_function("merkle opening proof verification", |b| {
         b.iter(|| {
             verifier
                 .verify(black_box(&proof), &public_inputs)
@@ -139,7 +137,6 @@ fn bench_opening_proof(c: &mut Criterion) {
     });
 }
 
-// criterion_group!(benches, bench_opening_proof, bench_level_hash_proof);
 criterion_group! {
     name = benches;
     config = Criterion::default().sample_size(10);
