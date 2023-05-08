@@ -113,7 +113,8 @@ fn bench_opening_proof(c: &mut Criterion) {
     let circuit = MerkleOpeningCircuit::random(&mut OsRng, &mut tree);
     let mut proof = Proof::default();
     let mut public_inputs = Vec::new();
-    c.bench_function("merkle opening proof generation", |b| {
+    let id = format!("merkle opening proof generation, depth = {}", DEPTH);
+    c.bench_function(&id, |b| {
         b.iter(|| {
             (proof, public_inputs) = prover
                 .prove(&mut OsRng, black_box(&circuit))
@@ -122,7 +123,8 @@ fn bench_opening_proof(c: &mut Criterion) {
     });
 
     // Benchmark proof verification
-    c.bench_function("merkle opening proof verification", |b| {
+    let id = format!("merkle opening proof verification, depth = {}", DEPTH);
+    c.bench_function(&id, |b| {
         b.iter(|| {
             verifier
                 .verify(black_box(&proof), &public_inputs)
