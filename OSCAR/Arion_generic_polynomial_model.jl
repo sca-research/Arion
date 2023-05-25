@@ -111,14 +111,14 @@ function generate_generic_Arion_polynomials(;arion=Arion_constructor(),
     key_variables = matrix(variables[arion.branches * (arion.rounds - 1) + 1:arion.branches * arion.rounds])
     if arion.rounds > 1
         index = arion.branches * arion.rounds + 1
-        current_state = arion.matrix * key_variables #arion.matrix * (plain + key_variables)
+        current_state = arion.matrix * (plain + key_variables)
         tmp = current_state[arion.branches, 1]
         current_state[arion.branches, 1] = variables[index]
         next_state = matrix(variables[1:arion.branches])
         polynomials = append_polynomial_matrix_to_vector(polynomials, 
                                                          round_function_Arion_polynomial_model(current_state,
                                                                                                tmp,
-                                                                                               key_variables - plain,
+                                                                                               key_variables,
                                                                                                arion.branches,
                                                                                                arion.d_1,
                                                                                                arion.constants_g[1:arion.branches,:],
@@ -140,7 +140,7 @@ function generate_generic_Arion_polynomials(;arion=Arion_constructor(),
             polynomials = append_polynomial_matrix_to_vector(polynomials,
                                                              round_function_Arion_polynomial_model(current_state,
                                                                                                    tmp,
-                                                                                                   key_variables - plain,
+                                                                                                   key_variables,
                                                                                                    arion.branches,
                                                                                                    arion.d_1,
                                                                                                    arion.constants_g[(arion.branches - 1) * r + 1:(arion.branches - 1) * (r + 1),:],
@@ -161,7 +161,7 @@ function generate_generic_Arion_polynomials(;arion=Arion_constructor(),
         polynomials = append_polynomial_matrix_to_vector(polynomials, 
                                                          round_function_Arion_polynomial_model(current_state,
                                                                                                tmp,
-                                                                                               key_variables - plain,
+                                                                                               key_variables,
                                                                                                arion.branches,
                                                                                                arion.d_1,
                                                                                                arion.constants_g[(arion.branches - 1) * (arion.rounds - 1) + 1:(arion.branches - 1) * arion.rounds,:],
@@ -175,13 +175,13 @@ function generate_generic_Arion_polynomials(;arion=Arion_constructor(),
             push!(polynomials, tmp - variables[index]^arion.d_2)
         end
     else
-        current_state = arion.matrix * key_variables #arion.matrix * (plain + key_variables)
+        current_state = arion.matrix * (plain + key_variables)
         tmp = current_state[arion.branches, 1]
         current_state[arion.branches, 1] = variables[arion.branches + 1]
         polynomials = append_polynomial_matrix_to_vector(polynomials, 
                                                          round_function_Arion_polynomial_model(current_state,
                                                                                                tmp,
-                                                                                               key_variables - plain,
+                                                                                               key_variables,
                                                                                                arion.branches,
                                                                                                arion.d_1,
                                                                                                arion.constants_g,
