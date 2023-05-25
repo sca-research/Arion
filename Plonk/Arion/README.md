@@ -4,7 +4,7 @@ Contains a pure [Rust](https://www.rust-lang.org/) reference implementation of A
 
 It is based on the Dusk Network [Hades252](https://github.com/dusk-network/Hades252) and [Poseidon252](https://github.com/dusk-network/Poseidon252).
 
-The code for generating Merkle trees and benchmarking is forked from [Poseidon252](https://github.com/dusk-network/Poseidon252) (commit `fc8e47639bb036967d7e6edf3b4d581eb60491cf`).
+The code for generating Merkle trees and benchmarking is forked from [Poseidon252](https://github.com/dusk-network/Poseidon252) (commit `7718e9d21c008ee84ea757757d0e47afdd0e32f9`).
 
 ## Usage
 
