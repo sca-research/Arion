@@ -37,14 +37,14 @@ parameters = [
 for param in parameters
     arion = Arion_constructor(field=GF(param[1]), branches=param[2], rounds=param[3], d_2=param[4])
     polys = generate_Arion_polynomials(arion=arion)
-    lms = get_leading_monomials(polys)
+    lms = map(poly -> leading_monomial(poly), polys)
     println("Leading monomials: ", lms)
-    println("Maximum degree: ", get_maximum_degree(lms))
+    println("Maximum degree: ", map(mon -> total_degree(mon), lms))
     I = ideal(polys)
-    gb = f4(I, initial_hts=17, nr_thrds=Threads.nthreads(), max_nr_pairs=0, la_option=2, eliminate=0, complete_reduction=true, info_level=2)
+    gb = groebner_basis_f4(I, initial_hts=17, nr_thrds=Threads.nthreads(), max_nr_pairs=0, la_option=2, eliminate=0, complete_reduction=true, info_level=2)
     println("Size of Gröbner basis: ", length(gb))
     basis = vector_space_basis(gb)
     println("Size of vector space basis: ", length(basis))
-    println("Leading monomials of Gröbner basis: ", get_leading_monomials(gb))
+    println("Leading monomials of Gröbner basis: ", map(poly -> leading_monomial(poly), gb))
     println("")
 end
