@@ -24,7 +24,7 @@ During benchmark execution, the following additional directories/files are creat
 ## Requirements
 First install requirements for `libsnark`
 ```shell
-sudo apt-get install build-essential git-all libboost-all-dev cmake libgmp-dev libssl-dev libprocps-dev pkg-config gnuplot-x11 libsodium-dev
+sudo apt-get install build-essential git-all libboost-all-dev cmake clang libgmp-dev libssl-dev libprocps-dev pkg-config gnuplot-x11 libsodium-dev libomp-dev
 ```
 On Ubuntu 20 one additionally needs to install a `C++20` compliant compiler, like `gcc-11+`: 
 ```shell
