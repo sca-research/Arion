@@ -1,18 +1,18 @@
-#!/bin/bashpairing
+#!/bin/bash
 
 printf "Downloading libsnarks"
-git clone https://github.com/alexander-zw/libsnark.git
+git clone https://github.com/scipr-lab/libsnark.git
 cd ./libsnark
-git checkout afdf378
+git checkout staging
 
 cd ./depends
 
-rm -r ./ate-pairing
-rm -r ./gtest
-rm -r ./libff
-rm -r ./libfqfft
-rm -r ./libsnark-supercop
-rm -r ./xbyak
+rm -rf ./ate-pairing
+rm -rf ./gtest
+rm -rf ./libff
+rm -rf ./libfqfft
+rm -rf ./libsnark-supercop
+rm -rf ./xbyak
 
 printf "\nDownloading ate-pairing"
 git clone https://github.com/herumi/ate-pairing.git
@@ -30,7 +30,7 @@ cd ..
 printf "\nDownloading libff"
 git clone https://github.com/scipr-lab/libff.git
 cd ./libff
-git checkout 176f3f4
+git checkout 674e437
 cd ..
 
 printf "\nDownloading libsnark-supercop"
@@ -48,14 +48,13 @@ cd ..
 printf "\nDownloading libfqfft"
 git clone https://github.com/scipr-lab/libfqfft.git
 cd ./libfqfft
-git checkout 7e1e957
-
+git checkout 7d460ca
 printf "\nInstalling libfqfft"
 cd ./depends
-rm -r ./ate-pairing
-rm -r ./gtest
-rm -r ./libff
-rm -r ./xbyak
+rm -rf ./ate-pairing
+rm -rf ./gtest
+rm -rf ./libff
+rm -rf ./xbyak
 cp -a ../../ate-pairing/ .
 cp -a ../../gtest/ .
 cp -a ../../libff/ .
@@ -73,6 +72,7 @@ sudo make install
 cd .. && cd ..
 
 printf "\nBuilding hash function project"
-
-mkdir ./bin
+mkdir -p build
+mkdir -p bin
+mkdir -p lib
 make -j16
