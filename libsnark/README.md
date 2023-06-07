@@ -36,8 +36,8 @@ sudo ln -fs /usr/bin/gcc-11 /usr/bin/gcc
 ```
 
 ## Configuring, building and testing
-This repository depends on the following fork+branch of the official `libsnark` library:
-> https://github.com/alexander-zw/libsnark/tree/update-libff
+This repository depends on the following branch of the official `libsnark` library:
+> https://github.com/scipr-lab/libsnark/tree/staging
 
 If you didn't install `libsnark` manually, then simply run
 ```shell
