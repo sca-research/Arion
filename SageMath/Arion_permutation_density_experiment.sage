@@ -13,18 +13,37 @@ handlers = [file_handler, stdout_handler]
 logging.basicConfig(format="%(asctime)-15s %(levelname)-8s %(message)s", level=logging.DEBUG, handlers=handlers)
 print = logging.info
 
-def density_estimate(prime, branches, rounds):
+def density_estimate(prime, branches, rounds, matrix_type):
     K = GF(prime)
-    arion = ArionDensity(K, branches=branches, rounds=rounds)
+    arion = ArionDensity(K, branches=branches, rounds=rounds, matrix_type=matrix_type)
     arion.density_of_Arion_permutation()
 
 print("Density estimation for Arion-pi.")
-primes = [11, 13, 17, 19, 23, 29, 31, 37]
+
+print("\n")
+print("Matrix Type 1.")
+print("\n")
+
+primes = [11, 13, 17, 19, 23]
 branches = [3, 4, 5]
-rounds = [6] #[3, 4, 5, 6]
+rounds = [6]
 
 for p in primes:
     for b in branches:
         for r in rounds:
-            density_estimate(p, b, r)
+            density_estimate(p, b, r, 1)
+            print("\n")
+
+print("\n")
+print("Matrix Type 2.")
+print("\n")
+
+primes = [11, 13, 17, 19, 23]
+branches = [3, 4, 5]
+rounds = [6]
+
+for p in primes:
+    for b in branches:
+        for r in rounds:
+            density_estimate(p, b, r, 2)
             print("\n")

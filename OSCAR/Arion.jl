@@ -22,7 +22,8 @@ function Arion_constructor(;field=GF(1009),
                             d_2=-1,
                             constants_g=nothing,
                             constants_h=nothing,
-                            constants_aff=nothing)
+                            constants_aff=nothing,
+                            matrix_type=1)
             
     q = size(field)
     
@@ -72,12 +73,28 @@ function Arion_constructor(;field=GF(1009),
     end
 
     mat = zero_matrix(field, branches, branches)
-    row = circshift(Vector(1:branches), -1)
-    for i in 1:branches
-        row = circshift(row, 1)
-        for j in 1:branches
-            mat[i, j] = field(row[j])
+    if matrix_type == 1
+        row = circshift(Vector(1:branches), -1)
+        for i in 1:branches
+            row = circshift(row, 1)
+            for j in 1:branches
+                mat[i, j] = field(row[j])
+            end
+    end
+    elseif matrix_type == 2
+        current_row = Vector(1:branches)
+        for i in 1:branches
+            for j in 1:branches
+                mat[i, j] = field(current_row[j])
+            end
+            if i > 1
+                mat[i, i - 1] += field(1)
+                mat[i, i] -= field(1)
+            end
         end
+    else
+        println("Matrix type not implemented.")
+        return
     end
 
     if isnothing(constants_g)
@@ -142,6 +159,7 @@ function Arion_constructor(;field=GF(1009),
     println("Rounds: ", rounds)
     println("Exponent d_1: ", d_1)
     println("Exponent d_2: ", d_2)
+    println("Matrix: ", mat)
     println("Constants for the g_i's: ", constants_g)
     println("Constants for the h_i's: ", constants_h)
     println("Affine constants: ", constants_aff)

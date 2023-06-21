@@ -12,7 +12,8 @@ class Arion:
                  d_2=None,
                  constants_g=None,
                  constants_h=None,
-                 constants_aff=None):
+                 constants_aff=None,
+                 matrix_type=1):
         self.field = field
         if not self.field.is_prime_field():
             raise Exception("Only prime fields are implemented. " + str(self.field) + " is not a prime field.")
@@ -80,23 +81,28 @@ class Arion:
             if len(flatten(self.constants_aff))!= self.branches * self.rounds:
                 raise Exception("Number of affine round constants does not match branches times the number of rounds.")
         
-        current_row = list(range(1, self.branches + 1))
-        self.matrix = [current_row]
-        for i in range(1, self.branches):
-            current_row = current_row[-1:] + current_row[:-1]
-            self.matrix.append(current_row)
-        self.matrix = matrix(self.field, self.matrix)
+        if matrix_type == 1:
+            self.matrix = matrix.circulant(vector(self.field, range(1, self.branches + 1)))
+        elif matrix_type == 2:
+            self.matrix = matrix(self.field, self.branches * [list(range(1, self.branches + 1))])
+            for i in range(1, self.branches):
+                self.matrix[i, i - 1] += 1
+                self.matrix[i, i] -= 1
+        else:
+            raise Exception("Matrix type not implemented.")
+
         try:
             self.matrix_inv = self.matrix.inverse()
         except:
-            raise Exception("Circulant matrix circ(1, ..., " + str(self.branches) + ") is not invertible over " + str(self.field) + ".")
-        
+            raise Exception("Matrix is not invertible over " + str(self.field) + ".")
+     
         print("Arion parameters")
         print("Prime field: " + str(self.field.characteristic()))
         print("Branches: " + str(self.branches))
         print("Rounds: " + str(self.rounds))
         print("Exponent d_1: " + str(self.d_1))
         print("Exponent d_2: " + str(self.d_2))
+        print("Matrix:\n" + str(self.matrix))
         print("Constants for the g_i's: " + str(self.constants_g))
         print("Constants for the h_i's: " + str(self.constants_h))
         print("Affine constants: " + str(self.constants_aff))

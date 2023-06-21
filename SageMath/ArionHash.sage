@@ -86,16 +86,15 @@ class ArionHash:
             if len(flatten(self.constants_aff))!= self.branches * self.rounds:
                 raise Exception("Number of affine round constants does not match branches times the number of rounds.")
         
-        current_row = list(range(1, self.branches + 1))
-        self.matrix = [current_row]
-        for i in range(1, self.branches):
-            current_row = current_row[-1:] + current_row[:-1]
-            self.matrix.append(current_row)
-        self.matrix = matrix(self.field, self.matrix)
-        try:
-            self.matrix_inv = self.matrix.inverse()
-        except:
-            raise Exception("Circulant matrix circ(1, ..., " + str(self.branches) + ") is not invertible over " + str(self.field) + ".")
+        if matrix_type == 1:
+            self.matrix = matrix.circulant(vector(self.field, range(1, self.branches + 1)))
+        elif matrix_type == 2:
+            self.matrix = matrix(self.field, self.branches * [list(range(1, self.branches + 1))])
+            for i in range(1, self.branches):
+                self.matrix[i, i - 1] += 1
+                self.matrix[i, i] -= 1
+        else:
+            raise Exception("Matrix type not implemented.")
         
         self.initial_value = initial_value
         if self.initial_value is None:
@@ -111,6 +110,7 @@ class ArionHash:
         print("Sponge capacity: " + str(self.capacity))
         print("Exponent d_1: " + str(self.d_1))
         print("Exponent d_2: " + str(self.d_2))
+        print("Matrix:\n" + str(self.matrix))
         print("Constants for the g_i's: " + str(self.constants_g))
         print("Constants for the h_i's: " + str(self.constants_h))
         print("Affine constants: " + str(self.constants_aff))

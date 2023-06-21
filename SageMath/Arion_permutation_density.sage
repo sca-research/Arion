@@ -12,7 +12,8 @@ class ArionDensity:
                  d_2=None,
                  constants_g=None,
                  constants_h=None,
-                 constants_aff=None):
+                 constants_aff=None,
+                 matrix_type=1):
     
         self.field = field
         if not self.field.is_prime_field():
@@ -74,12 +75,15 @@ class ArionDensity:
             if len(flatten(self.constants_aff))!= self.branches * self.rounds:
                 raise Exception("Number of affine round constants does not match branches times the number of rounds.")
         
-        current_row = list(range(1, self.branches + 1))
-        self.matrix = [current_row]
-        for i in range(1, self.branches):
-            current_row = current_row[-1:] + current_row[:-1]
-            self.matrix.append(current_row)
-        self.matrix = matrix(self.field, self.matrix)
+        if matrix_type == 1:
+            self.matrix = matrix.circulant(vector(self.field, range(1, self.branches + 1)))
+        elif matrix_type == 2:
+            self.matrix = matrix(self.field, self.branches * [list(range(1, self.branches + 1))])
+            for i in range(1, self.branches):
+                self.matrix[i, i - 1] += 1
+                self.matrix[i, i] -= 1
+        else:
+            raise Exception("Matrix type not implemented.")
         
         print("Arion parameters")
         print("Prime field: " + str(self.field.characteristic()))
@@ -87,6 +91,7 @@ class ArionDensity:
         print("Rounds: " + str(self.rounds))
         print("Exponent d_1: " + str(self.d_1))
         print("Exponent d_2: " + str(self.d_2))
+        print("Matrix:\n" + str(self.matrix))
         print("Constants for the g_i's: " + str(self.constants_g))
         print("Constants for the h_i's: " + str(self.constants_h))
         print("Affine constants: " + str(self.constants_aff))
