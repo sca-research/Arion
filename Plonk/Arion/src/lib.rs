@@ -9,13 +9,13 @@ mod constants;
 
 /// Arion input width and rounds
 pub const MAX_WIDTH: usize = 8;
-pub const MAX_ROUNDS: usize = 6;
+pub const MAX_ROUNDS: usize = 8;
 //pub const WIDTH: usize = 3;
 //pub const ROUNDS: usize = 6;
 //pub const WIDTH: usize = 4;
 //pub const ROUNDS: usize = 5;
 pub const WIDTH: usize = 5;
-pub const ROUNDS: usize = 5;
+pub const ROUNDS: usize = 7;
 //pub const WIDTH: usize = 6;
 //pub const ROUNDS: usize = 5;
 //pub const WIDTH: usize = 7;
