@@ -2,7 +2,7 @@ using Oscar
 include("utilities.jl")
 
 struct ArionHash
-    field::Nemo.GaloisField
+    field::FqField
     branches::Int64
     rounds::Int64
     capacity::Int64
@@ -11,11 +11,11 @@ struct ArionHash
     e_1::Int64
     d_2::Int64
     e_2::Int64
-    matrix::gfp_mat
-    constants_g::gfp_mat
-    constants_h::gfp_mat
-    constants_aff::gfp_mat
-    initial_value::gfp_mat
+    matrix::FqMatrix
+    constants_g::FqMatrix
+    constants_h::FqMatrix
+    constants_aff::FqMatrix
+    initial_value::FqMatrix
 end
 
 function ArionHash_constructor(;field=GF(1009),
@@ -30,7 +30,7 @@ function ArionHash_constructor(;field=GF(1009),
                                 initial_value=nothing,
                                 matrix_type=1)
             
-    q = size(field)
+    q = order(field)
     
     if branches <= capacity
         println("Capacity must be smaller than branch number.")

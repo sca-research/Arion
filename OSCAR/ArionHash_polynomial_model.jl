@@ -65,9 +65,9 @@ function generate_ArionHash_polynomials(;arion_hash=ArionHash_constructor(),
 
     variables = generate_ArionHash_variables(arion_hash.branches, arion_hash.rounds, arion_hash.rate)
     if termorder == "degrevlex"
-        P, variables = PolynomialRing(arion_hash.field, variables, ordering=:degrevlex)
+        P, variables = polynomial_ring(arion_hash.field, variables, internal_ordering=:degrevlex)
     elseif termorder == "lex"
-        P, variables = PolynomialRing(arion_hash.field, variables, ordering=:lex)
+        P, variables = polynomial_ring(arion_hash.field, variables, internal_ordering=:lex)
     else
         println("Term order ", termorder, " is not implemented.")
         return
@@ -90,15 +90,15 @@ function generate_ArionHash_polynomials(;arion_hash=ArionHash_constructor(),
     current_state[arion_hash.branches, 1] = variables[index]
     if arion_hash.rounds > 1
         next_state = matrix(variables[arion_hash.rate + 1:arion_hash.rate + arion_hash.branches])
-        polynomials = append_polynomial_matrix_to_vector(polynomials, 
-                                                         round_function_ArionHash_polynomial_model(current_state,
-                                                                                                   tmp,
-                                                                                                   arion_hash.branches,
-                                                                                                   arion_hash.d_1,
-                                                                                                   arion_hash.constants_g[1:arion_hash.branches,:],
-                                                                                                   arion_hash.constants_h[1:arion_hash.branches,:],
-                                                                                                   arion_hash.constants_aff[1,:],
-                                                                                                   arion_hash.matrix) - next_state)
+        polys = round_function_ArionHash_polynomial_model(current_state,
+                                                          tmp,
+                                                          arion_hash.branches,
+                                                          arion_hash.d_1,
+                                                          arion_hash.constants_g[1:arion_hash.branches,:],
+                                                          arion_hash.constants_h[1:arion_hash.branches,:],
+                                                          arion_hash.constants_aff[1,:],
+                                                          arion_hash.matrix) - next_state
+        polynomials = [polynomials; vec(polys[:, 1])]
         if naive_model
             push!(polynomials, tmp^arion_hash.e_2 - variables[index])
         else
@@ -110,15 +110,15 @@ function generate_ArionHash_polynomials(;arion_hash=ArionHash_constructor(),
             tmp = current_state[arion_hash.branches, 1]
             current_state[arion_hash.branches, 1] = variables[index]
             next_state = matrix(variables[arion_hash.rate + r * arion_hash.branches + 1:arion_hash.rate + (r + 1) * arion_hash.branches])
-            polynomials = append_polynomial_matrix_to_vector(polynomials,
-                                                             round_function_ArionHash_polynomial_model(current_state,
-                                                                                                       tmp,
-                                                                                                       arion_hash.branches,
-                                                                                                       arion_hash.d_1,
-                                                                                                       arion_hash.constants_g[(arion_hash.branches - 1) * r + 1:(arion_hash.branches - 1) * (r + 1),:],
-                                                                                                       arion_hash.constants_h[(arion_hash.branches - 1) * r + 1:(arion_hash.branches - 1) * (r + 1),:],
-                                                                                                       arion_hash.constants_aff[r + 1,:],
-                                                                                                       arion_hash.matrix) - next_state)
+            polys = round_function_ArionHash_polynomial_model(current_state,
+                                                              tmp,
+                                                              arion_hash.branches,
+                                                              arion_hash.d_1,
+                                                              arion_hash.constants_g[(arion_hash.branches - 1) * r + 1:(arion_hash.branches - 1) * (r + 1),:],
+                                                              arion_hash.constants_h[(arion_hash.branches - 1) * r + 1:(arion_hash.branches - 1) * (r + 1),:],
+                                                              arion_hash.constants_aff[r + 1,:],
+                                                              arion_hash.matrix) - next_state
+            polynomials = [polynomials; vec(polys[:, 1])]
             if naive_model
                 push!(polynomials, tmp^arion_hash.e_2 - variables[index])
             else
@@ -134,15 +134,15 @@ function generate_ArionHash_polynomials(;arion_hash=ArionHash_constructor(),
         for i in 2:arion_hash.branches
             next_state[i, 1] = variables[arion_hash.rate + arion_hash.branches * (arion_hash.rounds - 1) + (i - 1)]
         end
-        polynomials = append_polynomial_matrix_to_vector(polynomials, 
-                                                         round_function_ArionHash_polynomial_model(current_state,
-                                                                                                   tmp,
-                                                                                                   arion_hash.branches,
-                                                                                                   arion_hash.d_1,
-                                                                                                   arion_hash.constants_g[(arion_hash.branches - 1) * (arion_hash.rounds - 1) + 1:(arion_hash.branches - 1) * arion_hash.rounds,:],
-                                                                                                   arion_hash.constants_h[(arion_hash.branches - 1) * (arion_hash.rounds - 1) + 1:(arion_hash.branches - 1) * arion_hash.rounds,:],
-                                                                                                   arion_hash.constants_aff[arion_hash.rounds,:],
-                                                                                                   arion_hash.matrix) - next_state)
+        polynomials = round_function_ArionHash_polynomial_model(current_state,
+                                                                tmp,
+                                                                arion_hash.branches,
+                                                                arion_hash.d_1,
+                                                                arion_hash.constants_g[(arion_hash.branches - 1) * (arion_hash.rounds - 1) + 1:(arion_hash.branches - 1) * arion_hash.rounds,:],
+                                                                arion_hash.constants_h[(arion_hash.branches - 1) * (arion_hash.rounds - 1) + 1:(arion_hash.branches - 1) * arion_hash.rounds,:],
+                                                                arion_hash.constants_aff[arion_hash.rounds,:],
+                                                                arion_hash.matrix) - next_state
+        polynomials = [polynomials; vec(polys[:, 1])]
         if naive_model
             push!(polynomials, tmp^arion_hash.e_2 - variables[index])
         else
@@ -154,15 +154,15 @@ function generate_ArionHash_polynomials(;arion_hash=ArionHash_constructor(),
         for i in 2:arion_hash.branches
             next_state[i, 1] = variables[arion_hash.rate + arion_hash.branches * (arion_hash.rounds - 1) + (i - 1)]
         end
-        polynomials = append_polynomial_matrix_to_vector(polynomials, 
-                                                         round_function_ArionHash_polynomial_model(current_state,
-                                                                                                   tmp,
-                                                                                                   arion_hash.branches,
-                                                                                                   arion_hash.d_1,
-                                                                                                   arion_hash.constants_g,
-                                                                                                   arion_hash.constants_h,
-                                                                                                   arion_hash.constants_aff[1,:],
-                                                                                                   arion_hash.matrix) - next_state)
+        polynomials = round_function_ArionHash_polynomial_model(current_state,
+                                                                tmp,
+                                                                arion_hash.branches,
+                                                                arion_hash.d_1,
+                                                                arion_hash.constants_g,
+                                                                arion_hash.constants_h,
+                                                                arion_hash.constants_aff[1,:],
+                                                                arion_hash.matrix) - next_state
+        polynomials = [polynomials; vec(polys[:, 1])]
         if naive_model
             push!(polynomials, tmp^arion_hash.e_2 - variables[index])
         else
@@ -172,7 +172,7 @@ function generate_ArionHash_polynomials(;arion_hash=ArionHash_constructor(),
 
     if field_equations
         fes = generate_field_equations(variables)
-        polynomials = append_polynomial_matrix_to_vector(polynomials, matrix(fes))
+        polynomials = [polynomials; fes]
     end
     return polynomials
 end

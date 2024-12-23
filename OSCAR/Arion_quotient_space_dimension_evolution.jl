@@ -3,6 +3,8 @@ include("Arion_polynomial_model.jl")
 include("zero_dimensional_ideals.jl")
 include("utilities.jl")
 
+nr_thrds = 16
+
 parameters = [
 # [field, branches, rounds, d_2]
 [1013, 2, 1, 7],
@@ -37,7 +39,7 @@ for param in parameters
     println("Leading monomials: ", lms)
     println("Maximum degree: ", map(mon -> total_degree(mon), lms))
     I = ideal(polys)
-    gb = groebner_basis_f4(I, initial_hts=17, nr_thrds=Threads.nthreads(), max_nr_pairs=0, la_option=2, eliminate=0, complete_reduction=true, info_level=2)
+    gb = groebner_basis_f4(I, initial_hts=17, nr_thrds=nr_thrds, max_nr_pairs=0, la_option=2, eliminate=0, complete_reduction=true, info_level=2)
     println("Size of Gröbner basis: ", length(gb))
     basis = vector_space_basis(gb)
     println("Size of vector space basis: ", length(basis))
@@ -54,7 +56,7 @@ for param in parameters
     println("Leading monomials: ", lms)
     println("Maximum degree: ", map(mon -> total_degree(mon), lms))
     I = ideal(polys)
-    gb = groebner_basis_f4(I, initial_hts=17, nr_thrds=Threads.nthreads(), max_nr_pairs=0, la_option=2, eliminate=0, complete_reduction=true, info_level=2)
+    gb = groebner_basis_f4(I, initial_hts=17, nr_thrds=nr_thrds, max_nr_pairs=0, la_option=2, eliminate=0, complete_reduction=true, info_level=2)
     println("Size of Gröbner basis: ", length(gb))
     basis = vector_space_basis(gb)
     println("Size of vector space basis: ", length(basis))

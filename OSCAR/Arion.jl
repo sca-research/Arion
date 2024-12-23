@@ -2,17 +2,17 @@ using Oscar
 include("utilities.jl")
 
 struct Arion
-    field::Nemo.GaloisField
+    field::FqField
     branches::Int64
     rounds::Int64
     d_1::Int64
     e_1::Int64
     d_2::Int64
     e_2::Int64
-    matrix::gfp_mat
-    constants_g::gfp_mat
-    constants_h::gfp_mat
-    constants_aff::gfp_mat
+    matrix::FqMatrix
+    constants_g::FqMatrix
+    constants_h::FqMatrix
+    constants_aff::FqMatrix
 end
 
 function Arion_constructor(;field=GF(1009),
@@ -25,7 +25,7 @@ function Arion_constructor(;field=GF(1009),
                             constants_aff=nothing,
                             matrix_type=1)
             
-    q = size(field)
+    q = order(field)
     
     if d_1 == -1
         counter = 2
@@ -169,7 +169,7 @@ end
 
 function evaluate_g_and_h(x_in, constants_g, constants_h)
     # Constant term
-    out_g = constants_g[1, 2]
+    out_g = constants_g[2]
     out_h = 0
     # Linear term
     x_temp = x_in
@@ -213,10 +213,7 @@ function round_function(v_in, key, branches, d, e, constants_g, constants_h, con
 end
 
 function encrypt(plain, key, arion::Arion)
-    cipher = int_vector_to_field_matrix(plain, arion.field)
-    key = int_vector_to_field_matrix(key, arion.field)
-
-    cipher = arion.matrix * key_addition(cipher, key)
+    cipher = arion.matrix * key_addition(plain, key)
     for r in 1:arion.rounds
         cipher = round_function(cipher,
                                 key,
